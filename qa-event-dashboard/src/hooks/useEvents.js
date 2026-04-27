@@ -130,7 +130,7 @@ export function useEvents() {
     }
   }, []);
 
-  // ── Debounced Gist write ─────────────────────────────────────────────────
+  // ── Debounced Gist write (for ignoredKeys changes) ──────────────────────
   const scheduleSync = (events, ignoredKeys) => {
     if (!tokenRef.current || !gistIdRef.current) return;
     if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
@@ -140,6 +140,16 @@ export function useEvents() {
         .then(() => dispatch({ syncStatus: "synced", syncError: null }))
         .catch((e) => dispatch({ syncStatus: "error", syncError: e.message ?? "Sync failed" }));
     }, 1500);
+  };
+
+  // Immediate Gist write (for add / delete / update — discrete user actions)
+  const syncNow = (events, ignoredKeys) => {
+    if (!tokenRef.current || !gistIdRef.current) return;
+    if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
+    dispatch({ syncStatus: "syncing" });
+    writeGist(tokenRef.current, gistIdRef.current, events, ignoredKeys)
+      .then(() => dispatch({ syncStatus: "synced", syncError: null }))
+      .catch((e) => dispatch({ syncStatus: "error", syncError: e.message ?? "Sync failed" }));
   };
 
   // ── Connect / disconnect ─────────────────────────────────────────────────
@@ -180,7 +190,7 @@ export function useEvents() {
     const updated = [...state.events, newEvent];
     saveEvents(updated);
     dispatch({ events: updated });
-    scheduleSync(updated, state.ignoredKeys);
+    syncNow(updated, state.ignoredKeys);
   };
 
   const deleteEvent = (id) => {
@@ -190,7 +200,7 @@ export function useEvents() {
       events: updated,
       selectedEventId: state.selectedEventId === id ? null : state.selectedEventId,
     });
-    scheduleSync(updated, state.ignoredKeys);
+    syncNow(updated, state.ignoredKeys);
   };
 
   const updateEvent = (id, payload) => {
@@ -199,7 +209,7 @@ export function useEvents() {
     );
     saveEvents(updated);
     dispatch({ events: updated });
-    scheduleSync(updated, state.ignoredKeys);
+    syncNow(updated, state.ignoredKeys);
   };
 
   const selectEvent = (id) => {
