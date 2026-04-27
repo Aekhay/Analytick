@@ -200,6 +200,24 @@ export default function DiffViewer({
             actualData && (
               <div className="flex items-center gap-2">
                 <button
+                  onClick={() => {
+                    if (!actualData) return;
+                    dispatchCompare({ compareData: actualData });
+                  }}
+                  className={classnames(
+                    "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
+                    hasPendingChanges
+                      ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
+                      : "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
+                  )}
+                >
+                  <Play size={10} />
+                  Compare
+                </button>
+
+                <div className="w-px h-4 bg-zinc-700 shrink-0" />
+
+                <button
                   title="Format JSON"
                   onClick={() => {
                     if (!actualData) return;
@@ -208,20 +226,6 @@ export default function DiffViewer({
                   className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
                 >
                   <Braces size={11} />
-                </button>
-                <button
-                  onClick={() => {
-                    if (!actualData) return;
-                    dispatchCompare({ compareData: actualData });
-                  }}
-                  className={classnames(
-                    hasPendingChanges
-                      ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
-                      : "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
-                  )}
-                >
-                  <Play size={10} />
-                  Compare
                 </button>
                 <button
                   title={reorderedActual ? "Copy reordered JSON" : "Copy JSON"}
