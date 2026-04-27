@@ -201,6 +201,7 @@ export default function DiffViewer({
                 <button
                   title={reorderedActual ? "Copy reordered JSON" : "Copy JSON"}
                   onClick={() => {
+                    navigator.clipboard.writeText(copyText).then(() => {
                       dispatchCopy({ copied: true });
                       setTimeout(() => dispatchCopy({ copied: false }), 1800);
                     });
