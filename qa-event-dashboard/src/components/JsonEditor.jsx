@@ -1,12 +1,15 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, forwardRef } from "react";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-json";
 import classnames from "classnames";
 
-export default function JsonEditor({ value, onChange, readOnly = false, diffMap = {} }) {
+const JsonEditor = forwardRef(function JsonEditor(
+  { value, onChange, readOnly = false, diffMap = {} },
+  ref
+) {
   const hasDiff = Object.keys(diffMap).length > 0;
 
   const highlightCode = useCallback(
@@ -45,6 +48,7 @@ export default function JsonEditor({ value, onChange, readOnly = false, diffMap 
 
   return (
     <div
+      ref={ref}
       className={classnames(
         "relative h-full overflow-auto font-mono text-sm",
         "bg-[#0a0a0a] text-zinc-200",
@@ -74,4 +78,6 @@ export default function JsonEditor({ value, onChange, readOnly = false, diffMap 
       />
     </div>
   );
-}
+});
+
+export default JsonEditor;

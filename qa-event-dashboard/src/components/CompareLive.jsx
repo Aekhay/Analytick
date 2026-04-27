@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useMemo } from "react";
+import { useReducer, useMemo, useRef } from "react";
 import { Copy, Check, RotateCcw, Trash2, ArrowLeftRight, ShieldCheck, Play } from "lucide-react";
 import classnames from "classnames";
 import JsonEditor from "./JsonEditor";
@@ -8,6 +8,7 @@ import DiffSummary from "./DiffSummary";
 import IgnoredKeysBar from "./IgnoredKeysBar";
 import { comparePayloads, buildDiffMap } from "@/lib/diff";
 import { safeParse, reorderToMatch, prettyPrint } from "@/lib/helpers";
+import { useSyncScroll } from "@/hooks/useSyncScroll";
 
 const initState = {
   leftText: "",
@@ -25,6 +26,9 @@ function reducer(s, u) {
 
 export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgnoredKey }) {
   const [state, dispatch] = useReducer(reducer, initState);
+  const leftScrollRef = useRef(null);
+  const rightScrollRef = useRef(null);
+  useSyncScroll(leftScrollRef, rightScrollRef);
 
   const { data: leftData, error: leftError } = useMemo(
     () => safeParse(state.leftText),
@@ -179,6 +183,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
 
           <div className="flex-1 overflow-hidden flex flex-col">
             <JsonEditor
+              ref={leftScrollRef}
               value={state.leftText}
               onChange={(v) => dispatch({ leftText: v })}
               diffMap={diffMap}
@@ -205,6 +210,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
 
           <div className="flex-1 overflow-hidden flex flex-col">
             <JsonEditor
+              ref={rightScrollRef}
               value={displayRight}
               onChange={state.reorderActive ? undefined : (v) => dispatch({ rightText: v })}
               readOnly={state.reorderActive}

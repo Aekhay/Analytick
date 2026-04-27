@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useReducer, useEffect } from "react";
+import { useMemo, useReducer, useEffect, useRef } from "react";
 import { ArrowLeftRight, RotateCcw, Copy, Check, Pencil, Save, X, ShieldCheck, Play } from "lucide-react";
 import classnames from "classnames";
 import JsonEditor from "./JsonEditor";
@@ -9,6 +9,7 @@ import PlatformBadge from "./PlatformBadge";
 import IgnoredKeysBar from "./IgnoredKeysBar";
 import { comparePayloads, buildDiffMap } from "@/lib/diff";
 import { safeParse, reorderToMatch, prettyPrint } from "@/lib/helpers";
+import { useSyncScroll } from "@/hooks/useSyncScroll";
 
 const paneReducer = (s, u) => ({ ...s, ...u });
 
@@ -29,6 +30,10 @@ export default function DiffViewer({
     { editing: false, draftText: "", parseError: null }
   );
   const [{ compareData }, dispatchCompare] = useReducer(paneReducer, { compareData: null });
+
+  const baselineScrollRef = useRef(null);
+  const actualScrollRef = useRef(null);
+  useSyncScroll(baselineScrollRef, actualScrollRef);
 
   const { data: actualData, error: parseError } = useMemo(
     () => safeParse(actualPayload),
@@ -163,6 +168,7 @@ export default function DiffViewer({
 
           <div className="flex-1 overflow-hidden flex flex-col">
             <JsonEditor
+              ref={baselineScrollRef}
               value={editing ? draftText : baselineText}
               onChange={editing ? (v) => dispatchEdit({ draftText: v, parseError: null }) : undefined}
               readOnly={!editing}
@@ -236,6 +242,7 @@ export default function DiffViewer({
           <div className="flex flex-col h-full">
             <div className="flex-1 overflow-hidden">
               <JsonEditor
+                ref={actualScrollRef}
                 value={displayActual}
                 onChange={reorderActive ? undefined : onActualChange}
                 readOnly={reorderActive}
