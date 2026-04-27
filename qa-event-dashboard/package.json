@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rm -rf .next out node_modules",
     "dev": "NODE_OPTIONS='--max_old_space_size=4096' next dev --hostname localhost --turbopack",
-    "build": "NODE_OPTIONS='--max_old_space_size=4096' next build",
+    "build": "next build",
     "start": "serve out -l tcp://127.0.0.1:3000",
     "lint": "eslint"
   },
