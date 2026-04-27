@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useReducer } from "react";
-import { ArrowLeftRight, RotateCcw, Copy, Check, Pencil, Save, X, ShieldCheck } from "lucide-react";
+import { useMemo, useReducer, useEffect } from "react";
+import { ArrowLeftRight, RotateCcw, Copy, Check, Pencil, Save, X, ShieldCheck, Play } from "lucide-react";
 import classnames from "classnames";
 import JsonEditor from "./JsonEditor";
 import DiffSummary from "./DiffSummary";
@@ -28,6 +28,7 @@ export default function DiffViewer({
     paneReducer,
     { editing: false, draftText: "", parseError: null }
   );
+  const [{ compareData }, dispatchCompare] = useReducer(paneReducer, { compareData: null });
 
   const { data: actualData, error: parseError } = useMemo(
     () => safeParse(actualPayload),
@@ -35,9 +36,15 @@ export default function DiffViewer({
   );
 
   const diffResult = useMemo(() => {
-    if (!selectedEvent || !actualData) return null;
-    return comparePayloads(selectedEvent.payload, actualData, ignoredKeys);
-  }, [selectedEvent, actualData, ignoredKeys]);
+    if (!selectedEvent || !compareData) return null;
+    return comparePayloads(selectedEvent.payload, compareData, ignoredKeys);
+  }, [selectedEvent, compareData, ignoredKeys]);
+
+  const hasPendingChanges = actualData && actualData !== compareData;
+
+  useEffect(() => {
+    dispatchCompare({ compareData: null });
+  }, [selectedEvent?.id]);
 
   const diffMap = useMemo(() => {
     if (!diffResult) return {};
@@ -177,9 +184,23 @@ export default function DiffViewer({
             actualData && (
               <div className="flex items-center gap-2">
                 <button
+                  onClick={() => {
+                    if (!actualData) return;
+                    dispatchCompare({ compareData: actualData });
+                  }}
+                  className={classnames(
+                    "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
+                    hasPendingChanges
+                      ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
+                      : "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
+                  )}
+                >
+                  <Play size={10} />
+                  Compare
+                </button>
+                <button
                   title={reorderedActual ? "Copy reordered JSON" : "Copy JSON"}
                   onClick={() => {
-                    navigator.clipboard.writeText(copyText).then(() => {
                       dispatchCopy({ copied: true });
                       setTimeout(() => dispatchCopy({ copied: false }), 1800);
                     });

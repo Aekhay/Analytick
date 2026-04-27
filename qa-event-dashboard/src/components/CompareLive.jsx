@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducer, useMemo } from "react";
-import { Copy, Check, RotateCcw, Trash2, ArrowLeftRight, ShieldCheck } from "lucide-react";
+import { Copy, Check, RotateCcw, Trash2, ArrowLeftRight, ShieldCheck, Play } from "lucide-react";
 import classnames from "classnames";
 import JsonEditor from "./JsonEditor";
 import DiffSummary from "./DiffSummary";
@@ -15,6 +15,8 @@ const initState = {
   reorderActive: false,
   copiedLeft: false,
   copiedRight: false,
+  compareLeft: null,
+  compareRight: null,
 };
 
 function reducer(s, u) {
@@ -34,9 +36,13 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
   );
 
   const diffResult = useMemo(() => {
-    if (!leftData || !rightData) return null;
-    return comparePayloads(leftData, rightData, ignoredKeys);
-  }, [leftData, rightData, ignoredKeys]);
+    if (!state.compareLeft || !state.compareRight) return null;
+    return comparePayloads(state.compareLeft, state.compareRight, ignoredKeys);
+  }, [state.compareLeft, state.compareRight, ignoredKeys]);
+
+  const hasPendingChanges =
+    leftData && rightData &&
+    (leftData !== state.compareLeft || rightData !== state.compareRight);
 
   const diffMap = useMemo(() => {
     if (!diffResult) return {};
@@ -54,7 +60,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
 
   const copyText = (text) => navigator.clipboard.writeText(text).catch(() => {});
   const swap = () =>
-    dispatch({ leftText: state.rightText, rightText: state.leftText, reorderActive: false });
+    dispatch({ leftText: state.rightText, rightText: state.leftText, reorderActive: false, compareLeft: null, compareRight: null });
 
   const isEmpty = !state.leftText.trim() && !state.rightText.trim();
   // Keys match = same structure on both sides regardless of values
@@ -83,6 +89,26 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
         <span className="text-[11px] font-mono text-zinc-600 uppercase tracking-widest">
           Quick Compare
         </span>
+
+        {/* ── Compare button ── */}
+        <button
+          onClick={() => {
+            if (!leftData || !rightData) return;
+            dispatch({ compareLeft: leftData, compareRight: rightData });
+          }}
+          disabled={!leftData || !rightData}
+          className={classnames(
+            "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
+            hasPendingChanges
+              ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
+              : leftData && rightData
+              ? "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
+              : "border-zinc-700 text-zinc-600 opacity-40 cursor-not-allowed"
+          )}
+        >
+          <Play size={10} />
+          Compare
+        </button>
 
         {/* ── Match badge ── */}
         {keysMatch && (
@@ -119,7 +145,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
 
           {!isEmpty && (
             <button
-              onClick={() => dispatch({ leftText: "", rightText: "", reorderActive: false })}
+              onClick={() => dispatch({ leftText: "", rightText: "", reorderActive: false, compareLeft: null, compareRight: null })}
               className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-700 text-zinc-500 hover:border-red-500 hover:text-red-400 hover:border-red-500/50 transition-colors"
             >
               <Trash2 size={11} />
