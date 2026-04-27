@@ -1,5 +1,7 @@
 const STORAGE_KEY = "qa_events";
 const IGNORED_KEYS_KEY = "qa_ignored_keys";
+const GITHUB_TOKEN_KEY = "qa_github_token";
+const GIST_ID_KEY = "qa_gist_id";
 
 export function loadEvents() {
   if (typeof window === "undefined") return [];
@@ -36,4 +38,32 @@ export function loadIgnoredKeys() {
 export function saveIgnoredKeys(keys) {
   if (typeof window === "undefined") return;
   localStorage.setItem(IGNORED_KEYS_KEY, JSON.stringify(keys));
+}
+
+export function loadGithubToken() {
+  if (typeof window === "undefined") return null;
+  try { return localStorage.getItem(GITHUB_TOKEN_KEY) ?? null; }
+  catch { return null; }
+}
+
+export function saveGithubToken(token) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(GITHUB_TOKEN_KEY, token);
+}
+
+export function loadGistId() {
+  if (typeof window === "undefined") return null;
+  try { return localStorage.getItem(GIST_ID_KEY) ?? null; }
+  catch { return null; }
+}
+
+export function saveGistId(id) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(GIST_ID_KEY, id);
+}
+
+export function clearGithubSync() {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(GITHUB_TOKEN_KEY);
+  localStorage.removeItem(GIST_ID_KEY);
 }

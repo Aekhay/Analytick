@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import DiffViewer from "@/components/DiffViewer";
 import CompareLive from "@/components/CompareLive";
 import SaveEventModal from "@/components/SaveEventModal";
+import GithubSync from "@/components/GithubSync";
 import TopNav from "@/components/TopNav";
 import { useEvents } from "@/hooks/useEvents";
 
@@ -13,9 +14,10 @@ function pageReducer(s, u) {
 }
 
 export default function DashboardPage() {
-  const [{ activeTab, showModal }, dispatch] = useReducer(pageReducer, {
+  const [{ activeTab, showModal, showSync }, dispatch] = useReducer(pageReducer, {
     activeTab: "saved",
     showModal: false,
+    showSync: false,
   });
 
   const {
@@ -29,6 +31,8 @@ export default function DashboardPage() {
     toggleReorder,
     addIgnoredKey,
     removeIgnoredKey,
+    connectGithub,
+    disconnectGithub,
   } = useEvents();
 
   return (
@@ -36,6 +40,8 @@ export default function DashboardPage() {
       <TopNav
         activeTab={activeTab}
         onTabChange={(tab) => dispatch({ activeTab: tab })}
+        syncStatus={state.syncStatus}
+        onSyncClick={() => dispatch({ showSync: true })}
       />
 
       <div className="flex flex-1 overflow-hidden relative">
@@ -76,6 +82,18 @@ export default function DashboardPage() {
         <SaveEventModal
           onSave={addEvent}
           onClose={() => dispatch({ showModal: false })}
+        />
+      )}
+
+      {showSync && (
+        <GithubSync
+          syncStatus={state.syncStatus}
+          syncError={state.syncError}
+          gistId={state.gistId}
+          githubToken={state.githubToken}
+          onConnect={connectGithub}
+          onDisconnect={disconnectGithub}
+          onClose={() => dispatch({ showSync: false })}
         />
       )}
     </div>
