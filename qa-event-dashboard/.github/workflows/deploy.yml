@@ -17,24 +17,46 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./qa-event-dashboard
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/qa-event-dashboard/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+          elif [ -f "${{ github.workspace }}/qa-event-dashboard/package.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
           cache-dependency-path: qa-event-dashboard/package-lock.json
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          static_site_generator: next
+
       - name: Install dependencies
-        working-directory: qa-event-dashboard
-        run: npm ci
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
       - name: Build static site
-        working-directory: qa-event-dashboard
-        run: npm run build
+        run: ${{ steps.detect-package-manager.outputs.runner }} next build
         env:
           NODE_ENV: production
 
