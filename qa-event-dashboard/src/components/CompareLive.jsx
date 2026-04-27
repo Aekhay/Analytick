@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducer, useMemo, useRef } from "react";
-import { Copy, Check, RotateCcw, Trash2, ArrowLeftRight, ShieldCheck, Play } from "lucide-react";
+import { Copy, Check, RotateCcw, Trash2, ArrowLeftRight, ShieldCheck, Play, Braces } from "lucide-react";
 import classnames from "classnames";
 import JsonEditor from "./JsonEditor";
 import DiffSummary from "./DiffSummary";
@@ -169,16 +169,21 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
           )}
         >
           <PaneHeader label="Left — Reference" allMatch={keysMatch}>
-            {state.leftText.trim() && (
-              <CopyButton
-                copied={state.copiedLeft}
-                onClick={() => {
-                  copyText(state.leftText);
-                  dispatch({ copiedLeft: true });
-                  setTimeout(() => dispatch({ copiedLeft: false }), 1800);
-                }}
-              />
-            )}
+            <div className="flex items-center gap-1">
+              {leftData && (
+                <FormatButton onClick={() => dispatch({ leftText: prettyPrint(leftData) })} />
+              )}
+              {state.leftText.trim() && (
+                <CopyButton
+                  copied={state.copiedLeft}
+                  onClick={() => {
+                    copyText(state.leftText);
+                    dispatch({ copiedLeft: true });
+                    setTimeout(() => dispatch({ copiedLeft: false }), 1800);
+                  }}
+                />
+              )}
+            </div>
           </PaneHeader>
 
           <div className="flex-1 overflow-hidden flex flex-col">
@@ -195,17 +200,22 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
         {/* Right */}
         <section className="flex flex-col overflow-hidden">
           <PaneHeader label="Right — Compare" allMatch={keysMatch}>
-            {state.rightText.trim() && (
-              <CopyButton
-                copied={state.copiedRight}
-                label={reorderedRight ? "Copy reordered" : "Copy"}
-                onClick={() => {
-                  copyText(reorderedRight ?? state.rightText);
-                  dispatch({ copiedRight: true });
-                  setTimeout(() => dispatch({ copiedRight: false }), 1800);
-                }}
-              />
-            )}
+            <div className="flex items-center gap-1">
+              {rightData && !state.reorderActive && (
+                <FormatButton onClick={() => dispatch({ rightText: prettyPrint(rightData) })} />
+              )}
+              {state.rightText.trim() && (
+                <CopyButton
+                  copied={state.copiedRight}
+                  label={reorderedRight ? "Copy reordered" : "Copy"}
+                  onClick={() => {
+                    copyText(reorderedRight ?? state.rightText);
+                    dispatch({ copiedRight: true });
+                    setTimeout(() => dispatch({ copiedRight: false }), 1800);
+                  }}
+                />
+              )}
+            </div>
           </PaneHeader>
 
           <div className="flex-1 overflow-hidden flex flex-col">
@@ -277,6 +287,18 @@ function CopyButton({ copied, label = "Copy", onClick }) {
     >
       {copied ? <Check size={11} /> : <Copy size={11} />}
       {copied ? "Copied!" : label}
+    </button>
+  );
+}
+
+function FormatButton({ onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      title="Format JSON"
+      className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
+    >
+      <Braces size={11} />
     </button>
   );
 }

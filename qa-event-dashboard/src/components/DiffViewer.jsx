@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useReducer, useEffect, useRef } from "react";
-import { ArrowLeftRight, RotateCcw, Copy, Check, Pencil, Save, X, ShieldCheck, Play } from "lucide-react";
+import { ArrowLeftRight, RotateCcw, Copy, Check, Pencil, Save, X, ShieldCheck, Play, Braces } from "lucide-react";
 import classnames from "classnames";
 import JsonEditor from "./JsonEditor";
 import DiffSummary from "./DiffSummary";
@@ -138,6 +138,16 @@ export default function DiffViewer({
                 ? (
                   <>
                     <button
+                      onClick={() => {
+                        const { data } = safeParse(draftText);
+                        if (data) dispatchEdit({ draftText: prettyPrint(data), parseError: null });
+                      }}
+                      title="Format JSON"
+                      className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
+                    >
+                      <Braces size={11} />
+                    </button>
+                    <button
                       onClick={cancelEditing}
                       className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
                     >
@@ -190,12 +200,21 @@ export default function DiffViewer({
             actualData && (
               <div className="flex items-center gap-2">
                 <button
+                  title="Format JSON"
+                  onClick={() => {
+                    if (!actualData) return;
+                    onActualChange(prettyPrint(actualData));
+                  }}
+                  className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
+                >
+                  <Braces size={11} />
+                </button>
+                <button
                   onClick={() => {
                     if (!actualData) return;
                     dispatchCompare({ compareData: actualData });
                   }}
                   className={classnames(
-                    "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
                     hasPendingChanges
                       ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
                       : "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
