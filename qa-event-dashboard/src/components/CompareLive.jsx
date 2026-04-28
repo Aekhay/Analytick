@@ -26,7 +26,12 @@ function reducer(s, u) {
 
 function countKeys(obj) {
   if (!obj || typeof obj !== "object" || Array.isArray(obj)) return 0;
-  return Object.keys(obj).reduce((sum, k) => sum + 1 + countKeys(obj[k]), 0);
+  return Object.keys(obj).reduce((sum, k) => {
+    const val = obj[k];
+    if (val !== null && typeof val === "object" && !Array.isArray(val))
+      return sum + countKeys(val);
+    return sum + 1;
+  }, 0);
 }
 
 export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgnoredKey }) {
