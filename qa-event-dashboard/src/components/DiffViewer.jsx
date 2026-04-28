@@ -204,75 +204,73 @@ export default function DiffViewer({
         {/* ── Actual pane ── */}
         <Pane
           title="Actual"
-          label="Paste new payload →"
           extra={
-            actualData && (
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
-                  {countKeys(actualData)} keys
-                </span>
-                <div className="w-px h-3 bg-zinc-800 shrink-0" />
-                <button
-                  onClick={() => {
-                    if (!actualData) return;
-                    dispatchCompare({ compareData: actualData });
-                  }}
-                  className={classnames(
-                    "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
-                    hasPendingChanges
-                      ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
-                      : "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
-                  )}
-                >
-                  <Play size={10} />
-                  Compare
-                </button>
-
-                <div className="w-px h-4 bg-zinc-700 shrink-0" />
-
-                <button
-                  title="Format JSON"
-                  onClick={() => {
-                    if (!actualData) return;
-                    onActualChange(prettyPrint(actualData));
-                  }}
-                  className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
-                >
-                  <Braces size={11} />
-                </button>
-                <button
-                  title={reorderedActual ? "Copy reordered JSON" : "Copy JSON"}
-                  onClick={() => {
-                    navigator.clipboard.writeText(copyText).then(() => {
-                      dispatchCopy({ copied: true });
-                      setTimeout(() => dispatchCopy({ copied: false }), 1800);
-                    });
-                  }}
-                  className={classnames(
-                    "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-all",
-                    copied
-                      ? "border-emerald-500 text-emerald-400 bg-emerald-500/10"
-                      : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
-                  )}
-                >
-                  {copied ? <Check size={11} /> : <Copy size={11} />}
-                  {copied ? "Copied!" : "Copy"}
-                </button>
-
-                <button
-                  onClick={onToggleReorder}
-                  className={classnames(
-                    "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-colors",
-                    reorderActive
-                      ? "border-sky-500 text-sky-400 bg-sky-500/10"
-                      : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
-                  )}
-                >
-                  <RotateCcw size={11} />
-                  Reorder to match
-                </button>
-              </div>
-            )
+            <div className="flex items-center gap-2">
+              {actualData && (
+                <>
+                  <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+                    {countKeys(actualData)} keys
+                  </span>
+                  <div className="w-px h-3 bg-zinc-800 shrink-0" />
+                  <button
+                    title="Format JSON"
+                    onClick={() => onActualChange(prettyPrint(actualData))}
+                    className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
+                  >
+                    <Braces size={11} />
+                  </button>
+                  <button
+                    title={reorderedActual ? "Copy reordered JSON" : "Copy JSON"}
+                    onClick={() => {
+                      navigator.clipboard.writeText(copyText).then(() => {
+                        dispatchCopy({ copied: true });
+                        setTimeout(() => dispatchCopy({ copied: false }), 1800);
+                      });
+                    }}
+                    className={classnames(
+                      "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-all",
+                      copied
+                        ? "border-emerald-500 text-emerald-400 bg-emerald-500/10"
+                        : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+                    )}
+                  >
+                    {copied ? <Check size={11} /> : <Copy size={11} />}
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                  <button
+                    onClick={onToggleReorder}
+                    className={classnames(
+                      "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-colors",
+                      reorderActive
+                        ? "border-sky-500 text-sky-400 bg-sky-500/10"
+                        : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+                    )}
+                  >
+                    <RotateCcw size={11} />
+                    Reorder
+                  </button>
+                  <div className="w-px h-4 bg-zinc-700 shrink-0" />
+                </>
+              )}
+              <button
+                disabled={!actualData}
+                onClick={() => {
+                  if (!actualData) return;
+                  dispatchCompare({ compareData: actualData });
+                }}
+                className={classnames(
+                  "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
+                  !actualData
+                    ? "border-zinc-800 text-zinc-600 opacity-40 cursor-not-allowed"
+                    : hasPendingChanges
+                    ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
+                    : "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
+                )}
+              >
+                <Play size={10} />
+                Compare
+              </button>
+            </div>
           }
         >
           <div className="flex flex-col h-full">
@@ -307,7 +305,9 @@ function Pane({ title, label, platform, badge, badgeColor, extra, children }) {
         <span className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-widest">
           {title}
         </span>
-        <span className="text-xs font-mono text-zinc-300 truncate">{label}</span>
+        {label && (
+          <span className="text-xs font-mono text-zinc-300 truncate">{label}</span>
+        )}
         {platform && <PlatformBadge platform={platform} />}
         {badge && (
           <span className={classnames("text-[10px] font-mono ml-1", badgeColor)}>

@@ -24,6 +24,11 @@ function reducer(s, u) {
   return { ...s, ...u };
 }
 
+function countKeys(obj) {
+  if (!obj || typeof obj !== "object" || Array.isArray(obj)) return 0;
+  return Object.keys(obj).reduce((sum, k) => sum + 1 + countKeys(obj[k]), 0);
+}
+
 export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgnoredKey }) {
   const [state, dispatch] = useReducer(reducer, initState);
   const leftScrollRef = useRef(null);
@@ -169,20 +174,30 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
           )}
         >
           <PaneHeader label="Left — Reference" allMatch={keysMatch}>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               {leftData && (
-                <FormatButton onClick={() => dispatch({ leftText: prettyPrint(leftData) })} />
+                <>
+                  <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+                    {countKeys(leftData)} keys
+                  </span>
+                  <div className="w-px h-3 bg-zinc-800 shrink-0" />
+                </>
               )}
-              {state.leftText.trim() && (
-                <CopyButton
-                  copied={state.copiedLeft}
-                  onClick={() => {
-                    copyText(state.leftText);
-                    dispatch({ copiedLeft: true });
-                    setTimeout(() => dispatch({ copiedLeft: false }), 1800);
-                  }}
-                />
-              )}
+              <div className="flex items-center gap-1">
+                {leftData && (
+                  <FormatButton onClick={() => dispatch({ leftText: prettyPrint(leftData) })} />
+                )}
+                {state.leftText.trim() && (
+                  <CopyButton
+                    copied={state.copiedLeft}
+                    onClick={() => {
+                      copyText(state.leftText);
+                      dispatch({ copiedLeft: true });
+                      setTimeout(() => dispatch({ copiedLeft: false }), 1800);
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </PaneHeader>
 
@@ -200,21 +215,31 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
         {/* Right */}
         <section className="flex flex-col overflow-hidden">
           <PaneHeader label="Right — Compare" allMatch={keysMatch}>
-            <div className="flex items-center gap-1">
-              {rightData && !state.reorderActive && (
-                <FormatButton onClick={() => dispatch({ rightText: prettyPrint(rightData) })} />
+            <div className="flex items-center gap-2">
+              {rightData && (
+                <>
+                  <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+                    {countKeys(rightData)} keys
+                  </span>
+                  <div className="w-px h-3 bg-zinc-800 shrink-0" />
+                </>
               )}
-              {state.rightText.trim() && (
-                <CopyButton
-                  copied={state.copiedRight}
-                  label={reorderedRight ? "Copy reordered" : "Copy"}
-                  onClick={() => {
-                    copyText(reorderedRight ?? state.rightText);
-                    dispatch({ copiedRight: true });
-                    setTimeout(() => dispatch({ copiedRight: false }), 1800);
-                  }}
-                />
-              )}
+              <div className="flex items-center gap-1">
+                {rightData && !state.reorderActive && (
+                  <FormatButton onClick={() => dispatch({ rightText: prettyPrint(rightData) })} />
+                )}
+                {state.rightText.trim() && (
+                  <CopyButton
+                    copied={state.copiedRight}
+                    label={reorderedRight ? "Copy reordered" : "Copy"}
+                    onClick={() => {
+                      copyText(reorderedRight ?? state.rightText);
+                      dispatch({ copiedRight: true });
+                      setTimeout(() => dispatch({ copiedRight: false }), 1800);
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </PaneHeader>
 
