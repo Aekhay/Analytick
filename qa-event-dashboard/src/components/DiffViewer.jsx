@@ -139,7 +139,7 @@ export default function DiffViewer({
             <PlatformBadge platform={selectedEvent.platform} />
 
             <div className="ml-auto flex items-center gap-2">
-              <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-[10px] font-mono text-zinc-400 tabular-nums">
                 {countKeys(editing ? (safeParse(draftText).data ?? selectedEvent.payload) : selectedEvent.payload)} keys
               </span>
               <div className="w-px h-3 bg-zinc-800 shrink-0" />
@@ -208,7 +208,7 @@ export default function DiffViewer({
             <div className="flex items-center gap-2">
               {actualData && (
                 <>
-                  <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-[10px] font-mono text-zinc-400 tabular-nums">
                     {countKeys(actualData)} keys
                   </span>
                   <div className="w-px h-3 bg-zinc-800 shrink-0" />

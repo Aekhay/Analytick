@@ -177,7 +177,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
             <div className="flex items-center gap-2">
               {leftData && (
                 <>
-                  <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-[10px] font-mono text-zinc-400 tabular-nums">
                     {countKeys(leftData)} keys
                   </span>
                   <div className="w-px h-3 bg-zinc-800 shrink-0" />
@@ -218,7 +218,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
             <div className="flex items-center gap-2">
               {rightData && (
                 <>
-                  <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-[10px] font-mono text-zinc-400 tabular-nums">
                     {countKeys(rightData)} keys
                   </span>
                   <div className="w-px h-3 bg-zinc-800 shrink-0" />
