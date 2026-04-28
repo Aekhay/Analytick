@@ -13,6 +13,11 @@ import { useSyncScroll } from "@/hooks/useSyncScroll";
 
 const paneReducer = (s, u) => ({ ...s, ...u });
 
+function countKeys(obj) {
+  if (!obj || typeof obj !== "object" || Array.isArray(obj)) return 0;
+  return Object.keys(obj).reduce((sum, k) => sum + 1 + countKeys(obj[k]), 0);
+}
+
 export default function DiffViewer({
   selectedEvent,
   actualPayload,
@@ -134,6 +139,10 @@ export default function DiffViewer({
             <PlatformBadge platform={selectedEvent.platform} />
 
             <div className="ml-auto flex items-center gap-2">
+              <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+                {countKeys(editing ? (safeParse(draftText).data ?? selectedEvent.payload) : selectedEvent.payload)} keys
+              </span>
+              <div className="w-px h-3 bg-zinc-800 shrink-0" />
               {editing
                 ? (
                   <>
@@ -199,6 +208,10 @@ export default function DiffViewer({
           extra={
             actualData && (
               <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono text-zinc-600 tabular-nums">
+                  {countKeys(actualData)} keys
+                </span>
+                <div className="w-px h-3 bg-zinc-800 shrink-0" />
                 <button
                   onClick={() => {
                     if (!actualData) return;
