@@ -1,15 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { Search, Plus, Trash2, ChevronDown, ChevronRight } from "lucide-react";
+import { useReducer } from "react";
+import { Search, Plus, Trash2, ChevronDown, ChevronRight, Info, X } from "lucide-react";
 import classnames from "classnames";
 import PlatformBadge from "./PlatformBadge";
 
 const PLATFORMS = ["firebase", "kinesis", "statsig"];
 
-export default function Sidebar({ events, selectedEventId, onSelect, onDelete, onNewEvent }) {
-  const [search, setSearch] = useState("");
-  const [collapsed, setCollapsed] = useState({});
+function sidebarReducer(s, u) {
+  return { ...s, ...u };
+}
+
+export default function Sidebar({ events, selectedEventId, onSelect, onDelete, onReorder, onNewEvent }) {
+  const [{ search, collapsed, infoEvent, dragId, dragOverId }, dispatch] = useReducer(sidebarReducer, {
+    search: "",
+    collapsed: {},
+    infoEvent: null,
+    dragId: null,
+    dragOverId: null,
+  });
 
   const filtered = events.filter((e) =>
     e.name.toLowerCase().includes(search.toLowerCase())
@@ -42,7 +51,7 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
             type="text"
             placeholder="Search events..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => dispatch({ search: e.target.value })}
             className="bg-transparent text-xs font-mono text-zinc-300 placeholder:text-zinc-600 outline-none w-full"
           />
         </div>
@@ -58,7 +67,7 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
           return (
             <div key={platform} className="mb-1">
               <button
-                onClick={() => setCollapsed((c) => ({ ...c, [platform]: !c[platform] }))}
+                onClick={() => dispatch({ collapsed: { ...collapsed, [platform]: !collapsed[platform] } })}
                 className="w-full flex items-center gap-2 px-4 py-1.5 text-[11px] font-mono font-semibold text-zinc-500 hover:text-zinc-300 uppercase tracking-widest transition-colors"
               >
                 {isCollapsed
@@ -74,8 +83,15 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
                   key={event.id}
                   event={event}
                   isSelected={event.id === selectedEventId}
+                  isDragging={dragId === event.id}
+                  isDragOver={dragOverId === event.id && dragId !== event.id}
                   onSelect={onSelect}
                   onDelete={onDelete}
+                  onInfo={(e) => dispatch({ infoEvent: e })}
+                  onDragStart={() => dispatch({ dragId: event.id })}
+                  onDragOver={(e) => { e.preventDefault(); dispatch({ dragOverId: event.id }); }}
+                  onDrop={() => { onReorder(dragId, event.id); dispatch({ dragId: null, dragOverId: null }); }}
+                  onDragEnd={() => dispatch({ dragId: null, dragOverId: null })}
                 />
               ))}
             </div>
@@ -88,36 +104,105 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
           </p>
         )}
       </nav>
+
+      {infoEvent && (
+        <EventInfoModal
+          event={infoEvent}
+          onClose={() => dispatch({ infoEvent: null })}
+        />
+      )}
     </aside>
   );
 }
 
-function EventRow({ event, isSelected, onSelect, onDelete }) {
-  const [hovered, setHovered] = useState(false);
+function EventRow({ event, isSelected, isDragging, isDragOver, onSelect, onDelete, onInfo, onDragStart, onDragOver, onDrop, onDragEnd }) {
+  const [hovered, setHovered] = useReducer((_, v) => v, false);
 
   return (
     <div
+      draggable
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      onDragEnd={onDragEnd}
       className={classnames(
-        "group flex items-center gap-2 px-4 py-2 cursor-pointer transition-colors relative",
+        "group flex items-center gap-2 px-4 py-2 cursor-grab active:cursor-grabbing transition-colors relative select-none",
         "border-l-2",
         isSelected
           ? "border-l-sky-500 bg-sky-500/8 text-zinc-100"
-          : "border-l-transparent text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60"
+          : "border-l-transparent text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60",
+        isDragging && "opacity-30",
+        isDragOver && "border-t-2 border-t-sky-500"
       )}
       onClick={() => onSelect(event.id)}
     >
       <span className="flex-1 truncate text-xs font-mono">{event.name}</span>
 
       {hovered && (
-        <button
-          onClick={(e) => { e.stopPropagation(); onDelete(event.id); }}
-          className="shrink-0 text-zinc-600 hover:text-red-400 transition-colors"
-        >
-          <Trash2 size={12} />
-        </button>
+        <div className="flex items-center gap-1 shrink-0">
+          <button
+            onClick={(e) => { e.stopPropagation(); onInfo(event); }}
+            className="text-zinc-600 hover:text-sky-400 transition-colors"
+          >
+            <Info size={12} />
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); onDelete(event.id); }}
+            className="text-zinc-600 hover:text-red-400 transition-colors"
+          >
+            <Trash2 size={12} />
+          </button>
+        </div>
       )}
     </div>
   );
 }
+
+function EventInfoModal({ event, onClose }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+      <div className="w-[380px] flex flex-col bg-zinc-950 border border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
+        <header className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
+          <h2 className="text-sm font-bold font-mono text-zinc-100 tracking-wide uppercase">
+            Event Info
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-zinc-600 hover:text-zinc-300 transition-colors"
+          >
+            <X size={16} />
+          </button>
+        </header>
+
+        <div className="px-5 py-5 space-y-4">
+          <InfoRow label="Event Name">
+            <span className="text-sm font-mono text-zinc-100">{event.name}</span>
+          </InfoRow>
+          <InfoRow label="Platform">
+            <PlatformBadge platform={event.platform} size="md" />
+          </InfoRow>
+          <InfoRow label="Description">
+            {event.description
+              ? <p className="text-xs font-mono text-zinc-300 leading-relaxed">{event.description}</p>
+              : <span className="text-xs font-mono text-zinc-600">No description provided.</span>
+            }
+          </InfoRow>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoRow({ label, children }) {
+  return (
+    <div className="space-y-1.5">
+      <span className="text-[11px] font-mono font-semibold text-zinc-500 uppercase tracking-widest">
+        {label}
+      </span>
+      <div>{children}</div>
+    </div>
+  );
+}
+

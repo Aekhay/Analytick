@@ -26,6 +26,7 @@ export default function DashboardPage() {
     addEvent,
     deleteEvent,
     updateEvent,
+    reorderEvents,
     selectEvent,
     setActualPayload,
     toggleReorder,
@@ -52,6 +53,7 @@ export default function DashboardPage() {
               selectedEventId={state.selectedEventId}
               onSelect={selectEvent}
               onDelete={deleteEvent}
+              onReorder={reorderEvents}
               onNewEvent={() => dispatch({ showModal: true })}
             />
 

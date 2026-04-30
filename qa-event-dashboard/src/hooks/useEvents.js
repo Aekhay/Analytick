@@ -212,6 +212,21 @@ export function useEvents() {
     syncNow(updated, state.ignoredKeys);
   };
 
+  const reorderEvents = (sourceId, targetId) => {
+    if (sourceId === targetId) return;
+    const sourceEvent = state.events.find((e) => e.id === sourceId);
+    const targetEvent = state.events.find((e) => e.id === targetId);
+    if (!sourceEvent || !targetEvent || sourceEvent.platform !== targetEvent.platform) return;
+    const updated = [...state.events];
+    const sourceIdx = updated.findIndex((e) => e.id === sourceId);
+    const targetIdx = updated.findIndex((e) => e.id === targetId);
+    const [moved] = updated.splice(sourceIdx, 1);
+    updated.splice(targetIdx, 0, moved);
+    saveEvents(updated);
+    dispatch({ events: updated });
+    syncNow(updated, state.ignoredKeys);
+  };
+
   const selectEvent = (id) => {
     dispatch({ selectedEventId: id, actualPayload: "", reorderActive: false });
   };
@@ -252,6 +267,7 @@ export function useEvents() {
     addEvent,
     deleteEvent,
     updateEvent,
+    reorderEvents,
     selectEvent,
     setActualPayload,
     toggleReorder,
