@@ -203,9 +203,9 @@ export function useEvents() {
     syncNow(updated, state.ignoredKeys);
   };
 
-  const updateEvent = (id, payload) => {
+  const updateEvent = (id, eventData) => {
     const updated = state.events.map((e) =>
-      e.id === id ? { ...e, payload, updatedAt: new Date().toISOString() } : e
+      e.id === id ? { ...e, ...eventData, updatedAt: new Date().toISOString() } : e
     );
     saveEvents(updated);
     dispatch({ events: updated });

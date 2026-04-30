@@ -14,10 +14,11 @@ function pageReducer(s, u) {
 }
 
 export default function DashboardPage() {
-  const [{ activeTab, showModal, showSync }, dispatch] = useReducer(pageReducer, {
+  const [{ activeTab, showModal, showSync, showEditModal }, dispatch] = useReducer(pageReducer, {
     activeTab: "saved",
     showModal: false,
     showSync: false,
+    showEditModal: false,
   });
 
   const {
@@ -66,7 +67,7 @@ export default function DashboardPage() {
               onToggleReorder={toggleReorder}
               onAddIgnoredKey={addIgnoredKey}
               onRemoveIgnoredKey={removeIgnoredKey}
-              onUpdateBaseline={updateEvent}
+              onEditRequest={() => dispatch({ showEditModal: true })}
             />
           </>
         )}
@@ -79,6 +80,17 @@ export default function DashboardPage() {
           />
         )}
       </div>
+
+      {showEditModal && selectedEvent && (
+        <SaveEventModal
+          initialData={selectedEvent}
+          onSave={(data) => {
+            updateEvent(selectedEvent.id, data);
+            dispatch({ showEditModal: false });
+          }}
+          onClose={() => dispatch({ showEditModal: false })}
+        />
+      )}
 
       {showModal && (
         <SaveEventModal

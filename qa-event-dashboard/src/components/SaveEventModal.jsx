@@ -3,24 +3,24 @@
 import { useReducer } from "react";
 import { X } from "lucide-react";
 import classnames from "classnames";
-import { safeParse } from "@/lib/helpers";
+import { safeParse, prettyPrint } from "@/lib/helpers";
 
 const PLATFORMS = ["firebase", "kinesis", "statsig"];
-
-const initialForm = {
-  name: "",
-  platform: "firebase",
-  description: "",
-  payload: "",
-  error: null,
-};
 
 function formReducer(state, update) {
   return { ...state, ...update };
 }
 
-export default function SaveEventModal({ onSave, onClose }) {
-  const [form, dispatch] = useReducer(formReducer, initialForm);
+export default function SaveEventModal({ onSave, onClose, initialData }) {
+  const isEdit = !!initialData;
+
+  const [form, dispatch] = useReducer(formReducer, {
+    name: initialData?.name ?? "",
+    platform: initialData?.platform ?? "firebase",
+    description: initialData?.description ?? "",
+    payload: initialData?.payload ? prettyPrint(initialData.payload) : "",
+    error: null,
+  });
 
   const handleSubmit = () => {
     if (!form.name.trim()) {
@@ -55,7 +55,7 @@ export default function SaveEventModal({ onSave, onClose }) {
       <div className="w-[560px] max-h-[90vh] flex flex-col bg-zinc-950 border border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
         <header className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
           <h2 className="text-sm font-bold font-mono text-zinc-100 tracking-wide uppercase">
-            Save Baseline Event
+            {isEdit ? "Edit Baseline Event" : "Save Baseline Event"}
           </h2>
           <button
             onClick={onClose}
@@ -134,7 +134,7 @@ export default function SaveEventModal({ onSave, onClose }) {
             onClick={handleSubmit}
             className="px-4 py-2 text-xs font-mono font-bold text-black bg-white hover:bg-zinc-200 rounded-sm transition-colors"
           >
-            Save Baseline
+            {isEdit ? "Save Changes" : "Save Baseline"}
           </button>
         </footer>
       </div>
