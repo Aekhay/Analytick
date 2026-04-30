@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useReducer, useEffect, useRef } from "react";
-import { ArrowLeftRight, RotateCcw, Copy, Check, Pencil, Save, X, ShieldCheck, Play, Braces, Info } from "lucide-react";
+import { ArrowLeftRight, RotateCcw, Copy, Check, Pencil, Save, X, ShieldCheck, Play, Braces } from "lucide-react";
 import classnames from "classnames";
 import JsonEditor from "./JsonEditor";
 import DiffSummary from "./DiffSummary";
@@ -192,9 +192,11 @@ export default function DiffViewer({
 
           <div className="flex-1 overflow-hidden flex flex-col">
             {selectedEvent.description && !editing && (
-              <div className="flex items-start gap-1.5 px-4 py-2 border-b border-zinc-800/60 bg-zinc-950/40 shrink-0">
-                <Info size={11} className="text-zinc-600 mt-0.5 shrink-0" />
-                <p className="text-[11px] font-mono text-zinc-500 leading-relaxed">
+              <div className="flex items-start gap-2 px-4 py-2 border-b border-zinc-800/60 bg-zinc-950/40 shrink-0">
+                <span className="text-[11px] font-mono font-semibold text-zinc-500 uppercase tracking-widest shrink-0">
+                  Description
+                </span>
+                <p className="text-[11px] font-mono text-zinc-400 leading-relaxed">
                   {selectedEvent.description}
                 </p>
               </div>
