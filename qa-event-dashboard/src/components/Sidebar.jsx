@@ -7,6 +7,30 @@ import PlatformBadge from "./PlatformBadge";
 
 const PLATFORMS = ["firebase", "kinesis", "statsig"];
 
+const PLATFORM_STYLES = {
+  firebase: {
+    header: "text-orange-400 hover:text-orange-300",
+    count: "text-orange-600",
+    selectedBorder: "border-l-orange-400",
+    selectedBg: "bg-orange-400/10",
+    hoverBorder: "hover:border-l-orange-400/40",
+  },
+  kinesis: {
+    header: "text-blue-400 hover:text-blue-300",
+    count: "text-blue-600",
+    selectedBorder: "border-l-blue-400",
+    selectedBg: "bg-blue-400/10",
+    hoverBorder: "hover:border-l-blue-400/40",
+  },
+  statsig: {
+    header: "text-purple-400 hover:text-purple-300",
+    count: "text-purple-600",
+    selectedBorder: "border-l-purple-400",
+    selectedBg: "bg-purple-400/10",
+    hoverBorder: "hover:border-l-purple-400/40",
+  },
+};
+
 function sidebarReducer(s, u) {
   return { ...s, ...u };
 }
@@ -64,24 +88,31 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
 
           const isCollapsed = collapsed[platform];
 
+          const style = PLATFORM_STYLES[platform] ?? PLATFORM_STYLES.firebase;
+
           return (
             <div key={platform} className="mb-1">
               <button
                 onClick={() => dispatch({ collapsed: { ...collapsed, [platform]: !collapsed[platform] } })}
-                className="w-full flex items-center gap-2 px-4 py-1.5 text-[11px] font-mono font-semibold text-zinc-500 hover:text-zinc-300 uppercase tracking-widest transition-colors"
+                className={classnames(
+                  "w-full flex items-center gap-2 px-4 py-1.5 text-[11px] font-mono font-semibold uppercase tracking-widest transition-colors",
+                  style.header
+                )}
               >
                 {isCollapsed
                   ? <ChevronRight size={11} />
                   : <ChevronDown size={11} />
                 }
                 {platform}
-                <span className="ml-auto text-[10px] text-zinc-700">{group.length}</span>
+                <span className={classnames("ml-auto text-[10px]", style.count)}>{group.length}</span>
               </button>
 
               {!isCollapsed && group.map((event) => (
                 <EventRow
                   key={event.id}
                   event={event}
+                  platform={platform}
+                  style={style}
                   isSelected={event.id === selectedEventId}
                   isDragging={dragId === event.id}
                   isDragOver={dragOverId === event.id && dragId !== event.id}
@@ -115,7 +146,7 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
   );
 }
 
-function EventRow({ event, isSelected, isDragging, isDragOver, onSelect, onDelete, onInfo, onDragStart, onDragOver, onDrop, onDragEnd }) {
+function EventRow({ event, platform, style, isSelected, isDragging, isDragOver, onSelect, onDelete, onInfo, onDragStart, onDragOver, onDrop, onDragEnd }) {
   const [hovered, setHovered] = useReducer((_, v) => v, false);
 
   return (
@@ -128,11 +159,11 @@ function EventRow({ event, isSelected, isDragging, isDragOver, onSelect, onDelet
       onDrop={onDrop}
       onDragEnd={onDragEnd}
       className={classnames(
-        "group flex items-center gap-2 px-4 py-2 cursor-grab active:cursor-grabbing transition-colors relative select-none",
+        "group flex items-center gap-2 px-4 py-2 cursor-grab active:cursor-grabbing transition-all relative select-none",
         "border-l-2",
         isSelected
-          ? "border-l-sky-500 bg-sky-500/8 text-zinc-100"
-          : "border-l-transparent text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60",
+          ? [style.selectedBorder, style.selectedBg, "text-white"]
+          : ["border-l-transparent text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60", style.hoverBorder],
         isDragging && "opacity-30",
         isDragOver && "border-t-2 border-t-sky-500"
       )}
