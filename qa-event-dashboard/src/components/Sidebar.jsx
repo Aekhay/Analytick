@@ -9,22 +9,22 @@ const PLATFORMS = ["firebase", "kinesis", "statsig"];
 
 const PLATFORM_STYLES = {
   firebase: {
-    header: "text-orange-400 hover:text-orange-300",
-    count: "text-orange-600",
+    header: "text-orange-500 hover:text-orange-400 dark:text-orange-400 dark:hover:text-orange-300",
+    count: "text-orange-500 dark:text-orange-600",
     selectedBorder: "border-l-orange-400",
     selectedBg: "bg-orange-400/10",
     hoverBorder: "hover:border-l-orange-400/40",
   },
   kinesis: {
-    header: "text-blue-400 hover:text-blue-300",
-    count: "text-blue-600",
+    header: "text-blue-500 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-300",
+    count: "text-blue-500 dark:text-blue-600",
     selectedBorder: "border-l-blue-400",
     selectedBg: "bg-blue-400/10",
     hoverBorder: "hover:border-l-blue-400/40",
   },
   statsig: {
-    header: "text-purple-400 hover:text-purple-300",
-    count: "text-purple-600",
+    header: "text-purple-500 hover:text-purple-400 dark:text-purple-400 dark:hover:text-purple-300",
+    count: "text-purple-500 dark:text-purple-600",
     selectedBorder: "border-l-purple-400",
     selectedBg: "bg-purple-400/10",
     hoverBorder: "hover:border-l-purple-400/40",
@@ -54,29 +54,29 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
   }, {});
 
   return (
-    <aside className="w-64 min-w-[256px] flex flex-col border-r border-zinc-800 bg-zinc-950 h-full overflow-hidden">
-      <div className="px-4 pt-5 pb-3 border-b border-zinc-800 flex items-center justify-between">
-        <span className="text-sm font-bold font-mono text-zinc-100 tracking-wide uppercase">
+    <aside className="w-64 min-w-[256px] flex flex-col border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 h-full overflow-hidden">
+      <div className="px-4 pt-5 pb-3 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+        <span className="text-sm font-bold font-mono text-zinc-800 dark:text-zinc-100 tracking-wide uppercase">
           QA Events
         </span>
         <button
           onClick={onNewEvent}
-          className="flex items-center gap-1 text-xs font-mono text-zinc-400 hover:text-white px-2 py-1 border border-zinc-700 hover:border-zinc-500 rounded-sm transition-colors"
+          className="flex items-center gap-1 text-xs font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white px-2 py-1 border border-zinc-300 dark:border-zinc-700 hover:border-zinc-500 dark:hover:border-zinc-500 rounded-sm transition-colors"
         >
           <Plus size={12} />
           New
         </button>
       </div>
 
-      <div className="px-3 py-2 border-b border-zinc-800">
-        <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-sm px-2 py-1.5">
-          <Search size={12} className="text-zinc-600 shrink-0" />
+      <div className="px-3 py-2 border-b border-zinc-200 dark:border-zinc-800">
+        <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-sm px-2 py-1.5">
+          <Search size={12} className="text-zinc-400 dark:text-zinc-600 shrink-0" />
           <input
             type="text"
             placeholder="Search events..."
             value={search}
             onChange={(e) => dispatch({ search: e.target.value })}
-            className="bg-transparent text-xs font-mono text-zinc-300 placeholder:text-zinc-600 outline-none w-full"
+            className="bg-transparent text-xs font-mono text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 outline-none w-full"
           />
         </div>
       </div>
@@ -87,7 +87,6 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
           if (group.length === 0) return null;
 
           const isCollapsed = collapsed[platform];
-
           const style = PLATFORM_STYLES[platform] ?? PLATFORM_STYLES.firebase;
 
           return (
@@ -130,7 +129,7 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
         })}
 
         {filtered.length === 0 && (
-          <p className="px-4 py-6 text-xs font-mono text-zinc-600 text-center">
+          <p className="px-4 py-6 text-xs font-mono text-zinc-400 dark:text-zinc-600 text-center">
             No events found
           </p>
         )}
@@ -162,8 +161,8 @@ function EventRow({ event, platform, style, isSelected, isDragging, isDragOver, 
         "group flex items-center gap-2 px-4 py-2 cursor-grab active:cursor-grabbing transition-all relative select-none",
         "border-l-2",
         isSelected
-          ? [style.selectedBorder, style.selectedBg, "text-white"]
-          : ["border-l-transparent text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60", style.hoverBorder],
+          ? [style.selectedBorder, style.selectedBg, "text-zinc-900 dark:text-white"]
+          : ["border-l-transparent text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100/60 dark:hover:bg-zinc-900/60", style.hoverBorder],
         isDragging && "opacity-30",
         isDragOver && "border-t-2 border-t-sky-500"
       )}
@@ -175,13 +174,13 @@ function EventRow({ event, platform, style, isSelected, isDragging, isDragOver, 
         <div className="flex items-center gap-1 shrink-0">
           <button
             onClick={(e) => { e.stopPropagation(); onInfo(event); }}
-            className="text-zinc-600 hover:text-sky-400 transition-colors"
+            className="text-zinc-400 dark:text-zinc-600 hover:text-sky-500 dark:hover:text-sky-400 transition-colors"
           >
             <Info size={12} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onDelete(event.id); }}
-            className="text-zinc-600 hover:text-red-400 transition-colors"
+            className="text-zinc-400 dark:text-zinc-600 hover:text-red-500 dark:hover:text-red-400 transition-colors"
           >
             <Trash2 size={12} />
           </button>
@@ -193,15 +192,15 @@ function EventRow({ event, platform, style, isSelected, isDragging, isDragOver, 
 
 function EventInfoModal({ event, onClose }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-      <div className="w-[380px] flex flex-col bg-zinc-950 border border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
-        <header className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
-          <h2 className="text-sm font-bold font-mono text-zinc-100 tracking-wide uppercase">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/70 backdrop-blur-sm">
+      <div className="w-[380px] flex flex-col bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
+        <header className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
+          <h2 className="text-sm font-bold font-mono text-zinc-800 dark:text-zinc-100 tracking-wide uppercase">
             Event Info
           </h2>
           <button
             onClick={onClose}
-            className="text-zinc-600 hover:text-zinc-300 transition-colors"
+            className="text-zinc-400 dark:text-zinc-600 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
           >
             <X size={16} />
           </button>
@@ -209,15 +208,15 @@ function EventInfoModal({ event, onClose }) {
 
         <div className="px-5 py-5 space-y-4">
           <InfoRow label="Event Name">
-            <span className="text-sm font-mono text-zinc-100">{event.name}</span>
+            <span className="text-sm font-mono text-zinc-800 dark:text-zinc-100">{event.name}</span>
           </InfoRow>
           <InfoRow label="Platform">
             <PlatformBadge platform={event.platform} size="md" />
           </InfoRow>
           <InfoRow label="Description">
             {event.description
-              ? <p className="text-xs font-mono text-zinc-300 leading-relaxed">{event.description}</p>
-              : <span className="text-xs font-mono text-zinc-600">No description provided.</span>
+              ? <p className="text-xs font-mono text-zinc-600 dark:text-zinc-300 leading-relaxed">{event.description}</p>
+              : <span className="text-xs font-mono text-zinc-400 dark:text-zinc-600">No description provided.</span>
             }
           </InfoRow>
         </div>
@@ -229,11 +228,10 @@ function EventInfoModal({ event, onClose }) {
 function InfoRow({ label, children }) {
   return (
     <div className="space-y-1.5">
-      <span className="text-[11px] font-mono font-semibold text-zinc-500 uppercase tracking-widest">
+      <span className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
         {label}
       </span>
       <div>{children}</div>
     </div>
   );
 }
-

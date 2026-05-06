@@ -5,8 +5,8 @@ import classnames from "classnames";
 export default function DiffSummary({ diffResult, hasPayload }) {
   if (!hasPayload || !diffResult) {
     return (
-      <div className="border-t border-zinc-800 bg-zinc-950 px-6 py-3 flex items-center gap-3">
-        <span className="text-xs font-mono text-zinc-600">
+      <div className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-6 py-3 flex items-center gap-3">
+        <span className="text-xs font-mono text-zinc-400 dark:text-zinc-600">
           — Paste an actual payload on the right to start comparison
         </span>
       </div>
@@ -20,7 +20,9 @@ export default function DiffSummary({ diffResult, hasPayload }) {
     <div
       className={classnames(
         "border-t flex items-center gap-4 px-6 py-3 font-mono text-sm flex-wrap",
-        passing ? "border-emerald-900 bg-emerald-950/40" : "border-red-900 bg-red-950/20"
+        passing
+          ? "border-emerald-200 dark:border-emerald-900 bg-emerald-50/40 dark:bg-emerald-950/40"
+          : "border-red-200 dark:border-red-900 bg-red-50/30 dark:bg-red-950/20"
       )}
     >
       <span
@@ -46,11 +48,11 @@ export default function DiffSummary({ diffResult, hasPayload }) {
           <Pill color="zinc" label="ignored" count={diffResult.ignoredCount} />
         )}
         {passing && (
-          <span className="text-emerald-500">All {summary.total} fields match</span>
+          <span className="text-emerald-600 dark:text-emerald-500">All {summary.total} fields match</span>
         )}
       </div>
 
-      <span className="ml-auto text-zinc-600 text-xs">
+      <span className="ml-auto text-zinc-400 dark:text-zinc-600 text-xs">
         {summary.passed}/{summary.total} fields passed
       </span>
     </div>
@@ -59,10 +61,10 @@ export default function DiffSummary({ diffResult, hasPayload }) {
 
 function Pill({ color, label, count }) {
   const colorMap = {
-    red: "bg-red-500/15 text-red-400 border-red-500/30",
-    yellow: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
-    orange: "bg-orange-500/15 text-orange-400 border-orange-500/30",
-    zinc: "bg-zinc-500/15 text-zinc-500 border-zinc-500/30",
+    red:    "bg-red-500/10 text-red-600 dark:text-red-400 border-red-400/30 dark:border-red-500/30",
+    yellow: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-400/30 dark:border-yellow-500/30",
+    orange: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-400/30 dark:border-orange-500/30",
+    zinc:   "bg-zinc-500/10 text-zinc-500 border-zinc-400/30 dark:border-zinc-500/30",
   };
 
   return (

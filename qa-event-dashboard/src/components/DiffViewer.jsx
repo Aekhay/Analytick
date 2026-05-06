@@ -75,7 +75,7 @@ export default function DiffViewer({
 
   if (!selectedEvent) {
     return (
-      <main className="flex-1 flex items-center justify-center text-zinc-700 font-mono text-sm">
+      <main className="flex-1 flex items-center justify-center text-zinc-300 dark:text-zinc-700 font-mono text-sm">
         <div className="text-center space-y-2">
           <ArrowLeftRight size={32} className="mx-auto opacity-30" />
           <p>Select a baseline event from the sidebar</p>
@@ -92,39 +92,38 @@ export default function DiffViewer({
         onRemove={onRemoveIgnoredKey}
       />
 
-      {/* match badge bar — only shown when all key names are present on both sides */}
       {diffResult && diffResult.missingKeys.length === 0 && diffResult.addedKeys.length === 0 && (
-        <div className="flex items-center gap-3 px-4 py-2 bg-emerald-950/30 border-b border-emerald-800 shrink-0">
+        <div className="flex items-center gap-3 px-4 py-2 bg-emerald-50/60 dark:bg-emerald-950/30 border-b border-emerald-200 dark:border-emerald-800 shrink-0">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-emerald-500 text-black text-[11px] font-mono font-bold tracking-wide">
             <ShieldCheck size={12} />
             All keys match · case-sensitive
           </span>
-          <span className="text-[11px] font-mono text-emerald-700">
+          <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-700">
             {diffResult.summary.total} fields verified
           </span>
         </div>
       )}
 
-      <div className="flex-1 grid grid-cols-2 divide-x divide-zinc-800 overflow-hidden">
+      <div className="flex-1 grid grid-cols-2 divide-x divide-zinc-200 dark:divide-zinc-800 overflow-hidden">
         {/* ── Baseline pane ── */}
         <section className="flex flex-col overflow-hidden">
-          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-800 bg-zinc-950 shrink-0">
-            <span className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-widest">
+          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shrink-0">
+            <span className="text-[11px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
               Baseline
             </span>
-            <span className="text-xs font-mono text-zinc-300 truncate">
+            <span className="text-xs font-mono text-zinc-700 dark:text-zinc-300 truncate">
               {selectedEvent.name}
             </span>
             <PlatformBadge platform={selectedEvent.platform} />
 
             <div className="ml-auto flex items-center gap-2">
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-800 border border-white/30 text-[10px] font-mono text-emerald-400 tabular-nums">
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-white/30 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">
                 {countKeys(selectedEvent.payload)} keys
               </span>
-              <div className="w-px h-3 bg-zinc-800 shrink-0" />
+              <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-800 shrink-0" />
               <button
                 onClick={onEditRequest}
-                className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
+                className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-300 dark:border-zinc-700 text-zinc-500 dark:text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
               >
                 <Pencil size={11} />
                 Edit
@@ -134,11 +133,11 @@ export default function DiffViewer({
 
           <div className="flex-1 overflow-hidden flex flex-col">
             {selectedEvent.description && (
-              <div className="flex items-start gap-2 px-4 py-2 border-b border-zinc-800/60 bg-zinc-950/40 shrink-0">
-                <span className="text-[11px] font-mono font-semibold text-zinc-500 uppercase tracking-widest shrink-0">
+              <div className="flex items-start gap-2 px-4 py-2 border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/40 dark:bg-zinc-950/40 shrink-0">
+                <span className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest shrink-0">
                   Description:
                 </span>
-                <p className="text-[11px] font-mono text-zinc-100 leading-relaxed">
+                <p className="text-[11px] font-mono text-zinc-700 dark:text-zinc-100 leading-relaxed">
                   {selectedEvent.description}
                 </p>
               </div>
@@ -159,14 +158,14 @@ export default function DiffViewer({
             <div className="flex items-center gap-2">
               {actualData && (
                 <>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-800 border border-white/30 text-[10px] font-mono text-emerald-400 tabular-nums">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-white/30 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">
                     {countKeys(actualData)} keys
                   </span>
-                  <div className="w-px h-3 bg-zinc-800 shrink-0" />
+                  <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-700 shrink-0" />
                   <button
                     title="Format JSON"
                     onClick={() => onActualChange(prettyPrint(actualData))}
-                    className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
+                    className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-300 dark:border-zinc-700 text-zinc-400 dark:text-zinc-500 hover:border-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
                   >
                     <Braces size={11} />
                   </button>
@@ -181,8 +180,8 @@ export default function DiffViewer({
                     className={classnames(
                       "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-all",
                       copied
-                        ? "border-emerald-500 text-emerald-400 bg-emerald-500/10"
-                        : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+                        ? "border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
+                        : "border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
                     )}
                   >
                     {copied ? <Check size={11} /> : <Copy size={11} />}
@@ -193,14 +192,14 @@ export default function DiffViewer({
                     className={classnames(
                       "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-colors",
                       reorderActive
-                        ? "border-sky-500 text-sky-400 bg-sky-500/10"
-                        : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+                        ? "border-sky-500 text-sky-500 dark:text-sky-400 bg-sky-500/10"
+                        : "border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
                     )}
                   >
                     <RotateCcw size={11} />
                     Reorder
                   </button>
-                  <div className="w-px h-4 bg-zinc-700 shrink-0" />
+                  <div className="w-px h-4 bg-zinc-200 dark:bg-zinc-700 shrink-0" />
                 </>
               )}
               <button
@@ -212,10 +211,10 @@ export default function DiffViewer({
                 className={classnames(
                   "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
                   !actualData
-                    ? "border-zinc-800 text-zinc-600 opacity-40 cursor-not-allowed"
+                    ? "border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-600 opacity-40 cursor-not-allowed"
                     : hasPendingChanges
-                    ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
-                    : "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
+                    ? "border-sky-400 text-sky-600 dark:text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
+                    : "border-sky-500 dark:border-sky-600 text-sky-600 dark:text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
                 )}
               >
                 <Play size={10} />
@@ -226,11 +225,11 @@ export default function DiffViewer({
         >
           <div className="flex flex-col h-full">
             {selectedEvent.description && (
-              <div className="flex items-start gap-2 px-4 py-2 border-b border-zinc-800/60 bg-zinc-950/40 shrink-0">
-                <span className="text-[11px] font-mono font-semibold text-zinc-500 uppercase tracking-widest shrink-0">
+              <div className="flex items-start gap-2 px-4 py-2 border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/40 dark:bg-zinc-950/40 shrink-0">
+                <span className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest shrink-0">
                   Description:
                 </span>
-                <p className="text-[11px] font-mono text-zinc-100 leading-relaxed">
+                <p className="text-[11px] font-mono text-zinc-700 dark:text-zinc-100 leading-relaxed">
                   {selectedEvent.description}
                 </p>
               </div>
@@ -246,7 +245,7 @@ export default function DiffViewer({
             </div>
 
             {parseError && actualPayload.trim() && (
-              <div className="px-4 py-2 bg-red-950/40 border-t border-red-900 text-xs font-mono text-red-400">
+              <div className="px-4 py-2 bg-red-50 dark:bg-red-950/40 border-t border-red-200 dark:border-red-900 text-xs font-mono text-red-600 dark:text-red-400">
                 JSON parse error: {parseError}
               </div>
             )}
@@ -262,12 +261,12 @@ export default function DiffViewer({
 function Pane({ title, label, platform, badge, badgeColor, extra, children }) {
   return (
     <section className="flex flex-col overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-800 bg-zinc-950 shrink-0">
-        <span className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-widest">
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shrink-0">
+        <span className="text-[11px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
           {title}
         </span>
         {label && (
-          <span className="text-xs font-mono text-zinc-300 truncate">{label}</span>
+          <span className="text-xs font-mono text-zinc-700 dark:text-zinc-300 truncate">{label}</span>
         )}
         {platform && <PlatformBadge platform={platform} />}
         {badge && (

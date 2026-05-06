@@ -5,11 +5,11 @@ import { X, Cloud, CloudOff, ExternalLink, Loader, CheckCircle, AlertCircle } fr
 import classnames from "classnames";
 
 const SYNC_UI = {
-  idle:       { icon: CloudOff,      color: "text-zinc-500",   border: "border-zinc-800",   bg: "bg-zinc-900",        label: "Not connected" },
-  connecting: { icon: Loader,        color: "text-yellow-400", border: "border-yellow-800", bg: "bg-yellow-950/20",   label: "Connecting…",   spin: true },
-  syncing:    { icon: Loader,        color: "text-sky-400",    border: "border-sky-800",    bg: "bg-sky-950/20",      label: "Syncing…",      spin: true },
-  synced:     { icon: CheckCircle,   color: "text-emerald-400",border: "border-emerald-800",bg: "bg-emerald-950/20",  label: "Synced to GitHub" },
-  error:      { icon: AlertCircle,   color: "text-red-400",    border: "border-red-800",    bg: "bg-red-950/20",      label: "Sync error" },
+  idle:       { icon: CloudOff,    color: "text-zinc-500",   border: "border-zinc-300 dark:border-zinc-800",   bg: "bg-zinc-50 dark:bg-zinc-900",        label: "Not connected" },
+  connecting: { icon: Loader,      color: "text-yellow-600 dark:text-yellow-400", border: "border-yellow-300 dark:border-yellow-800", bg: "bg-yellow-50 dark:bg-yellow-950/20", label: "Connecting…", spin: true },
+  syncing:    { icon: Loader,      color: "text-sky-600 dark:text-sky-400",    border: "border-sky-300 dark:border-sky-800",    bg: "bg-sky-50 dark:bg-sky-950/20",      label: "Syncing…",    spin: true },
+  synced:     { icon: CheckCircle, color: "text-emerald-600 dark:text-emerald-400", border: "border-emerald-300 dark:border-emerald-800", bg: "bg-emerald-50 dark:bg-emerald-950/20", label: "Synced to GitHub" },
+  error:      { icon: AlertCircle, color: "text-red-600 dark:text-red-400",    border: "border-red-300 dark:border-red-800",    bg: "bg-red-50 dark:bg-red-950/20",      label: "Sync error" },
 };
 
 const initialForm = { token: "", error: null, connecting: false };
@@ -39,16 +39,16 @@ export default function GithubSync({ syncStatus, syncError, gistId, githubToken,
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-      <div className="w-[480px] flex flex-col bg-zinc-950 border border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
-        <header className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/70 backdrop-blur-sm">
+      <div className="w-[480px] flex flex-col bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
+        <header className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-2">
-            <Cloud size={13} className="text-zinc-400" />
-            <h2 className="text-sm font-bold font-mono text-zinc-100 tracking-wide uppercase">
+            <Cloud size={13} className="text-zinc-500 dark:text-zinc-400" />
+            <h2 className="text-sm font-bold font-mono text-zinc-800 dark:text-zinc-100 tracking-wide uppercase">
               GitHub Gist Sync
             </h2>
           </div>
-          <button onClick={onClose} className="text-zinc-600 hover:text-zinc-300 transition-colors">
+          <button onClick={onClose} className="text-zinc-400 dark:text-zinc-600 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
             <X size={16} />
           </button>
         </header>
@@ -64,14 +64,14 @@ export default function GithubSync({ syncStatus, syncError, gistId, githubToken,
             <StatusIcon size={13} className={classnames(ui.color, ui.spin && "animate-spin")} />
             <span>{ui.label}</span>
             {syncError && syncStatus === "error" && (
-              <span className="text-red-300 ml-1">— {syncError}</span>
+              <span className="text-red-500 dark:text-red-300 ml-1">— {syncError}</span>
             )}
             {gistId && (
               <a
                 href={`https://gist.github.com/${gistId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-auto flex items-center gap-1 text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="ml-auto flex items-center gap-1 text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
               >
                 View Gist <ExternalLink size={10} />
               </a>
@@ -83,12 +83,12 @@ export default function GithubSync({ syncStatus, syncError, gistId, githubToken,
               <>
                 <p className="text-xs font-mono text-zinc-500 leading-relaxed">
                   Connect a GitHub Personal Access Token with{" "}
-                  <code className="text-zinc-300 bg-zinc-800 px-1 rounded">gist</code> scope.
+                  <code className="text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 px-1 rounded">gist</code> scope.
                   Your events are stored in a private Gist and sync automatically across any device.
                 </p>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono font-semibold text-zinc-500 uppercase tracking-widest">
+                  <label className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
                     Personal Access Token
                   </label>
                   <input
@@ -97,9 +97,9 @@ export default function GithubSync({ syncStatus, syncError, gistId, githubToken,
                     onChange={(e) => dispatch({ token: e.target.value, error: null })}
                     onKeyDown={(e) => e.key === "Enter" && !form.connecting && handleConnect()}
                     placeholder="github_pat_…"
-                    className="w-full bg-zinc-900 border border-zinc-700 rounded-sm px-3 py-2 text-sm font-mono text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500"
+                    className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-sm px-3 py-2 text-sm font-mono text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500"
                   />
-                  <p className="text-[11px] font-mono text-zinc-600">
+                  <p className="text-[11px] font-mono text-zinc-400 dark:text-zinc-600">
                     Generate at{" "}
                     <a
                       href="https://github.com/settings/tokens/new?scopes=gist&description=QA+Event+Dashboard"
@@ -109,12 +109,12 @@ export default function GithubSync({ syncStatus, syncError, gistId, githubToken,
                     >
                       github.com/settings/tokens
                     </a>
-                    {" "}— only the <code className="text-zinc-400">gist</code> scope is needed.
+                    {" "}— only the <code className="text-zinc-500 dark:text-zinc-400">gist</code> scope is needed.
                   </p>
                 </div>
 
                 {form.error && (
-                  <p className="text-xs font-mono text-red-400 bg-red-500/10 border border-red-500/20 rounded-sm px-3 py-2">
+                  <p className="text-xs font-mono text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-sm px-3 py-2">
                     {form.error}
                   </p>
                 )}
@@ -122,7 +122,7 @@ export default function GithubSync({ syncStatus, syncError, gistId, githubToken,
                 <button
                   onClick={handleConnect}
                   disabled={form.connecting}
-                  className="w-full py-2 text-xs font-mono font-bold text-black bg-white hover:bg-zinc-200 rounded-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-2 text-xs font-mono font-bold bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {form.connecting ? "Connecting…" : "Connect & Sync"}
                 </button>
@@ -130,13 +130,13 @@ export default function GithubSync({ syncStatus, syncError, gistId, githubToken,
             )
             : (
               <>
-                <p className="text-xs font-mono text-zinc-400 leading-relaxed">
+                <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   Events are automatically synced to a private GitHub Gist.
                   Sign in on any device with the same token to access them.
                 </p>
                 <button
                   onClick={() => { onDisconnect(); onClose(); }}
-                  className="w-full py-2 text-xs font-mono border border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-sm transition-colors"
+                  className="w-full py-2 text-xs font-mono border border-red-400/30 dark:border-red-500/30 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-sm transition-colors"
                 >
                   Disconnect &amp; use local storage only
                 </button>

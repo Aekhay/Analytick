@@ -77,7 +77,6 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
     dispatch({ leftText: state.rightText, rightText: state.leftText, reorderActive: false, compareLeft: null, compareRight: null });
 
   const isEmpty = !state.leftText.trim() && !state.rightText.trim();
-  // Keys match = same structure on both sides regardless of values
   const keysMatch =
     diffResult !== null &&
     diffResult.missingKeys.length === 0 &&
@@ -96,11 +95,11 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
         className={classnames(
           "flex items-center gap-3 px-4 py-2 border-b shrink-0 transition-colors duration-300",
           keysMatch
-            ? "border-emerald-800 bg-emerald-950/30"
-            : "border-zinc-800 bg-zinc-950/60"
+            ? "border-emerald-200 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/30"
+            : "border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-950/60"
         )}
       >
-        <span className="text-[11px] font-mono text-zinc-600 uppercase tracking-widest">
+        <span className="text-[11px] font-mono text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">
           Quick Compare
         </span>
 
@@ -114,10 +113,10 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
           className={classnames(
             "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
             hasPendingChanges
-              ? "border-sky-400 text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
+              ? "border-sky-400 text-sky-600 dark:text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
               : leftData && rightData
-              ? "border-sky-600 text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
-              : "border-zinc-700 text-zinc-600 opacity-40 cursor-not-allowed"
+              ? "border-sky-500 dark:border-sky-600 text-sky-600 dark:text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
+              : "border-zinc-200 dark:border-zinc-700 text-zinc-400 dark:text-zinc-600 opacity-40 cursor-not-allowed"
           )}
         >
           <Play size={10} />
@@ -139,8 +138,8 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
               className={classnames(
                 "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-colors",
                 state.reorderActive
-                  ? "border-sky-500 text-sky-400 bg-sky-500/10"
-                  : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+                  ? "border-sky-500 text-sky-500 dark:text-sky-400 bg-sky-500/10"
+                  : "border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:border-zinc-500 dark:hover:text-zinc-300"
               )}
             >
               <RotateCcw size={11} />
@@ -151,7 +150,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
           <button
             onClick={swap}
             disabled={!state.leftText && !state.rightText}
-            className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:border-zinc-500 dark:hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ArrowLeftRight size={11} />
             Swap
@@ -160,7 +159,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
           {!isEmpty && (
             <button
               onClick={() => dispatch({ leftText: "", rightText: "", reorderActive: false, compareLeft: null, compareRight: null })}
-              className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-700 text-zinc-500 hover:border-red-500 hover:text-red-400 hover:border-red-500/50 transition-colors"
+              className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-red-400 hover:text-red-500 dark:hover:border-red-500/50 dark:hover:text-red-400 transition-colors"
             >
               <Trash2 size={11} />
               Clear all
@@ -170,22 +169,22 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
       </div>
 
       {/* editors */}
-      <div className="flex-1 grid grid-cols-2 divide-x divide-zinc-800 overflow-hidden">
+      <div className="flex-1 grid grid-cols-2 divide-x divide-zinc-200 dark:divide-zinc-800 overflow-hidden">
         {/* Left */}
         <section
           className={classnames(
             "flex flex-col overflow-hidden transition-colors duration-300",
-            keysMatch && "border-r border-emerald-900/40"
+            keysMatch && "border-r border-emerald-200/40 dark:border-emerald-900/40"
           )}
         >
           <PaneHeader label="Left — Reference" allMatch={keysMatch}>
             <div className="flex items-center gap-2">
               {leftData && (
                 <>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-800 border border-white/30 text-[10px] font-mono text-emerald-400 tabular-nums">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-white/30 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">
                     {countKeys(leftData)} keys
                   </span>
-                  <div className="w-px h-3 bg-zinc-800 shrink-0" />
+                  <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-800 shrink-0" />
                 </>
               )}
               <div className="flex items-center gap-1">
@@ -226,10 +225,10 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
             <div className="flex items-center gap-2">
               {rightData && (
                 <>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-800 border border-white/30 text-[10px] font-mono text-emerald-400 tabular-nums">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-white/30 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">
                     {countKeys(rightData)} keys
                   </span>
-                  <div className="w-px h-3 bg-zinc-800 shrink-0" />
+                  <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-800 shrink-0" />
                 </>
               )}
               <div className="flex items-center gap-1">
@@ -269,7 +268,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
 
       {isEmpty && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="text-center space-y-2 text-zinc-700 font-mono text-sm">
+          <div className="text-center space-y-2 text-zinc-300 dark:text-zinc-700 font-mono text-sm">
             <ArrowLeftRight size={32} className="mx-auto opacity-20" />
             <p>Paste JSON into either pane to begin</p>
           </div>
@@ -287,14 +286,14 @@ function PaneHeader({ label, allMatch, children }) {
       className={classnames(
         "flex items-center gap-2 px-4 py-2.5 border-b shrink-0 transition-colors duration-300",
         allMatch
-          ? "border-emerald-800/60 bg-emerald-950/20"
-          : "border-zinc-800 bg-zinc-950"
+          ? "border-emerald-200/60 dark:border-emerald-800/60 bg-emerald-50/30 dark:bg-emerald-950/20"
+          : "border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950"
       )}
     >
       <span
         className={classnames(
           "text-[11px] font-mono font-bold uppercase tracking-widest transition-colors duration-300",
-          allMatch ? "text-emerald-600" : "text-zinc-500"
+          allMatch ? "text-emerald-600" : "text-zinc-400 dark:text-zinc-500"
         )}
       >
         {label}
@@ -317,8 +316,8 @@ function CopyButton({ copied, label = "Copy", onClick }) {
       className={classnames(
         "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-all",
         copied
-          ? "border-emerald-500 text-emerald-400 bg-emerald-500/10"
-          : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300"
+          ? "border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
+          : "border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:border-zinc-500 dark:hover:text-zinc-300"
       )}
     >
       {copied ? <Check size={11} /> : <Copy size={11} />}
@@ -332,7 +331,7 @@ function FormatButton({ onClick }) {
     <button
       onClick={onClick}
       title="Format JSON"
-      className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
+      className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-300 dark:border-zinc-700 text-zinc-400 dark:text-zinc-500 hover:border-zinc-500 hover:text-zinc-600 dark:hover:border-zinc-500 dark:hover:text-zinc-300 transition-colors"
     >
       <Braces size={11} />
     </button>
@@ -344,7 +343,7 @@ function ClearPaneButton({ onClick }) {
     <button
       onClick={onClick}
       title="Clear pane"
-      className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-red-500/60 hover:text-red-400 transition-colors"
+      className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-300 dark:border-zinc-700 text-zinc-400 dark:text-zinc-500 hover:border-red-400/60 hover:text-red-500 dark:hover:border-red-500/60 dark:hover:text-red-400 transition-colors"
     >
       <Trash2 size={11} />
     </button>
@@ -353,7 +352,7 @@ function ClearPaneButton({ onClick }) {
 
 function ParseError({ msg }) {
   return (
-    <div className="px-4 py-2 bg-red-950/40 border-t border-red-900 text-xs font-mono text-red-400 shrink-0">
+    <div className="px-4 py-2 bg-red-50 dark:bg-red-950/40 border-t border-red-200 dark:border-red-900 text-xs font-mono text-red-600 dark:text-red-400 shrink-0">
       JSON parse error: {msg}
     </div>
   );

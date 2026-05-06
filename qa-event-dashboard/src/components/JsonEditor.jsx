@@ -51,13 +51,7 @@ const JsonEditor = forwardRef(function JsonEditor(
       ref={ref}
       className={classnames(
         "relative h-full overflow-auto font-mono text-sm",
-        "bg-[#0a0a0a] text-zinc-200",
-        "[&_.token.string]:text-emerald-400",
-        "[&_.token.number]:text-sky-400",
-        "[&_.token.boolean]:text-amber-400",
-        "[&_.token.null]:text-red-400",
-        "[&_.token.property]:text-zinc-100",
-        "[&_.token.punctuation]:text-zinc-500"
+        "bg-[var(--editor-bg)]"
       )}
     >
       <Editor
@@ -72,7 +66,7 @@ const JsonEditor = forwardRef(function JsonEditor(
           lineHeight: "1.6",
           minHeight: "100%",
           background: "transparent",
-          caretColor: "#fff",
+          caretColor: "var(--editor-caret)",
         }}
         textareaClassName="focus:outline-none"
       />

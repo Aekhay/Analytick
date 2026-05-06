@@ -81,6 +81,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Editor */
+  --editor-bg: #fafafa;
+  --editor-caret: #18181b;
 }
 
 .dark {
@@ -115,6 +118,9 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  /* Editor */
+  --editor-bg: #0a0a0a;
+  --editor-caret: #ffffff;
 }
 
 @layer base {
@@ -131,24 +137,36 @@
 
 /* Diff highlight classes applied by JsonEditor post-render pass */
 .diff-missing {
-  background-color: rgba(239, 68, 68, 0.15);
-  border-left: 2px solid rgb(239, 68, 68);
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left: 2px solid rgb(220, 38, 38);
   padding-left: 6px;
   display: block;
+}
+.dark .diff-missing {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-left-color: rgb(239, 68, 68);
 }
 
 .diff-added {
-  background-color: rgba(234, 179, 8, 0.12);
-  border-left: 2px solid rgb(234, 179, 8);
+  background-color: rgba(234, 179, 8, 0.08);
+  border-left: 2px solid rgb(202, 138, 4);
   padding-left: 6px;
   display: block;
 }
+.dark .diff-added {
+  background-color: rgba(234, 179, 8, 0.12);
+  border-left-color: rgb(234, 179, 8);
+}
 
 .diff-changed {
-  background-color: rgba(249, 115, 22, 0.12);
-  border-left: 2px solid rgb(249, 115, 22);
+  background-color: rgba(249, 115, 22, 0.08);
+  border-left: 2px solid rgb(234, 88, 12);
   padding-left: 6px;
   display: block;
+}
+.dark .diff-changed {
+  background-color: rgba(249, 115, 22, 0.12);
+  border-left-color: rgb(249, 115, 22);
 }
 
 /* One-shot pulse for the match badge */
@@ -164,6 +182,9 @@
 /* Thin scrollbar for sidebar */
 .scrollbar-thin {
   scrollbar-width: thin;
+  scrollbar-color: theme('colors.zinc.300') transparent;
+}
+.dark .scrollbar-thin {
   scrollbar-color: theme('colors.zinc.700') transparent;
 }
 .scrollbar-thin::-webkit-scrollbar {
@@ -173,14 +194,25 @@
   background: transparent;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: theme('colors.zinc.700');
+  background-color: theme('colors.zinc.300');
   border-radius: 2px;
 }
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: theme('colors.zinc.700');
+}
 
-/* Prism token colors inside the editor */
-.token.string { color: #6ee7b7; }
-.token.number { color: #7dd3fc; }
-.token.boolean { color: #fbbf24; }
-.token.null { color: #f87171; }
-.token.property { color: #e4e4e7; }
-.token.punctuation { color: #71717a; }
+/* Prism token colors — light mode defaults */
+.token.string     { color: #059669; }
+.token.number     { color: #0284c7; }
+.token.boolean    { color: #d97706; }
+.token.null       { color: #dc2626; }
+.token.property   { color: #18181b; }
+.token.punctuation{ color: #71717a; }
+
+/* Prism token colors — dark mode overrides */
+.dark .token.string     { color: #6ee7b7; }
+.dark .token.number     { color: #7dd3fc; }
+.dark .token.boolean    { color: #fbbf24; }
+.dark .token.null       { color: #f87171; }
+.dark .token.property   { color: #e4e4e7; }
+.dark .token.punctuation{ color: #71717a; }

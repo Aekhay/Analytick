@@ -24,10 +24,10 @@ export default function IgnoredKeysBar({ ignoredKeys, onAdd, onRemove }) {
   };
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2 border-b border-zinc-800 bg-zinc-950/80 flex-wrap min-h-[38px]">
+    <div className="flex items-center gap-3 px-4 py-2 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 flex-wrap min-h-[38px]">
       <div className="flex items-center gap-1.5 shrink-0">
-        <EyeOff size={11} className="text-zinc-600" />
-        <span className="text-[11px] font-mono font-semibold text-zinc-600 uppercase tracking-widest">
+        <EyeOff size={11} className="text-zinc-400 dark:text-zinc-600" />
+        <span className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">
           Ignore fields
         </span>
       </div>
@@ -36,12 +36,12 @@ export default function IgnoredKeysBar({ ignoredKeys, onAdd, onRemove }) {
         {ignoredKeys.map((key) => (
           <span
             key={key}
-            className="inline-flex items-center gap-1 bg-zinc-800 border border-zinc-700 text-zinc-400 text-[11px] font-mono px-1.5 py-0.5 rounded-sm"
+            className="inline-flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 text-[11px] font-mono px-1.5 py-0.5 rounded-sm"
           >
             {key}
             <button
               onClick={() => onRemove(key)}
-              className="text-zinc-600 hover:text-red-400 transition-colors ml-0.5"
+              className="text-zinc-400 dark:text-zinc-600 hover:text-red-500 dark:hover:text-red-400 transition-colors ml-0.5"
             >
               <X size={10} />
             </button>
@@ -52,11 +52,11 @@ export default function IgnoredKeysBar({ ignoredKeys, onAdd, onRemove }) {
           className={classnames(
             "flex items-center gap-1 border rounded-sm px-1.5 py-0.5 transition-colors",
             focused
-              ? "border-zinc-600 bg-zinc-900"
-              : "border-zinc-800 bg-transparent"
+              ? "border-zinc-400 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-900"
+              : "border-zinc-200 dark:border-zinc-800 bg-transparent"
           )}
         >
-          <Plus size={10} className="text-zinc-600 shrink-0" />
+          <Plus size={10} className="text-zinc-400 dark:text-zinc-600 shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -75,13 +75,13 @@ export default function IgnoredKeysBar({ ignoredKeys, onAdd, onRemove }) {
               }
             }}
             placeholder="add key..."
-            className="bg-transparent text-[11px] font-mono text-zinc-400 placeholder:text-zinc-700 outline-none w-20"
+            className="bg-transparent text-[11px] font-mono text-zinc-600 dark:text-zinc-400 placeholder:text-zinc-400 dark:placeholder:text-zinc-700 outline-none w-20"
           />
         </div>
       </div>
 
       {ignoredKeys.length > 0 && (
-        <span className="text-[10px] font-mono text-zinc-700 shrink-0">
+        <span className="text-[10px] font-mono text-zinc-300 dark:text-zinc-700 shrink-0">
           {ignoredKeys.length} ignored
         </span>
       )}

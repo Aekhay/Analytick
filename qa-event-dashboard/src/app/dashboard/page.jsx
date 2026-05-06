@@ -38,7 +38,7 @@ export default function DashboardPage() {
   } = useEvents();
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-zinc-950 text-zinc-100">
+    <div className="flex flex-col h-screen overflow-hidden bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
       <TopNav
         activeTab={activeTab}
         onTabChange={(tab) => dispatch({ activeTab: tab })}
