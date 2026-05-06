@@ -193,14 +193,17 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
                   <FormatButton onClick={() => dispatch({ leftText: prettyPrint(leftData) })} />
                 )}
                 {state.leftText.trim() && (
-                  <CopyButton
-                    copied={state.copiedLeft}
-                    onClick={() => {
-                      copyText(state.leftText);
-                      dispatch({ copiedLeft: true });
-                      setTimeout(() => dispatch({ copiedLeft: false }), 1800);
-                    }}
-                  />
+                  <>
+                    <CopyButton
+                      copied={state.copiedLeft}
+                      onClick={() => {
+                        copyText(state.leftText);
+                        dispatch({ copiedLeft: true });
+                        setTimeout(() => dispatch({ copiedLeft: false }), 1800);
+                      }}
+                    />
+                    <ClearPaneButton onClick={() => dispatch({ leftText: "", compareLeft: null, compareRight: null })} />
+                  </>
                 )}
               </div>
             </div>
@@ -234,15 +237,18 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
                   <FormatButton onClick={() => dispatch({ rightText: prettyPrint(rightData) })} />
                 )}
                 {state.rightText.trim() && (
-                  <CopyButton
-                    copied={state.copiedRight}
-                    label={reorderedRight ? "Copy reordered" : "Copy"}
-                    onClick={() => {
-                      copyText(reorderedRight ?? state.rightText);
-                      dispatch({ copiedRight: true });
-                      setTimeout(() => dispatch({ copiedRight: false }), 1800);
-                    }}
-                  />
+                  <>
+                    <CopyButton
+                      copied={state.copiedRight}
+                      label={reorderedRight ? "Copy reordered" : "Copy"}
+                      onClick={() => {
+                        copyText(reorderedRight ?? state.rightText);
+                        dispatch({ copiedRight: true });
+                        setTimeout(() => dispatch({ copiedRight: false }), 1800);
+                      }}
+                    />
+                    <ClearPaneButton onClick={() => dispatch({ rightText: "", reorderActive: false, compareLeft: null, compareRight: null })} />
+                  </>
                 )}
               </div>
             </div>
@@ -329,6 +335,18 @@ function FormatButton({ onClick }) {
       className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
     >
       <Braces size={11} />
+    </button>
+  );
+}
+
+function ClearPaneButton({ onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      title="Clear pane"
+      className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-700 text-zinc-500 hover:border-red-500/60 hover:text-red-400 transition-colors"
+    >
+      <Trash2 size={11} />
     </button>
   );
 }
