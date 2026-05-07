@@ -61,7 +61,7 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
         </span>
         <button
           onClick={onNewEvent}
-          className="flex items-center gap-1 text-xs font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white px-2 py-1 border border-zinc-300 dark:border-zinc-700 hover:border-zinc-500 dark:hover:border-zinc-500 rounded-sm transition-colors"
+          className="flex items-center gap-1 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white px-2 py-1 border border-black dark:border-zinc-700 hover:border-black dark:hover:border-zinc-500 rounded-sm transition-colors"
         >
           <Plus size={12} />
           New

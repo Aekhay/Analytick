@@ -86,7 +86,7 @@ export default function SaveEventModal({ onSave, onClose, initialData }) {
                     "flex-1 py-1.5 text-xs font-mono rounded-sm border transition-colors capitalize",
                     form.platform === p
                       ? "border-sky-500 bg-sky-500/15 text-sky-600 dark:text-sky-400"
-                      : "border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                      : "border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:text-zinc-300"
                   )}
                 >
                   {p}
@@ -126,7 +126,7 @@ export default function SaveEventModal({ onSave, onClose, initialData }) {
         <footer className="flex items-center justify-end gap-3 px-5 py-4 border-t border-zinc-200 dark:border-zinc-800">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 border border-zinc-300 dark:border-zinc-700 hover:border-zinc-500 rounded-sm transition-colors"
+            className="px-4 py-2 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-zinc-200 border border-black dark:border-zinc-700 hover:border-black rounded-sm transition-colors"
           >
             Cancel
           </button>

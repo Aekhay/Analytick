@@ -123,7 +123,7 @@ export default function DiffViewer({
               <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-800 shrink-0" />
               <button
                 onClick={onEditRequest}
-                className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-zinc-300 dark:border-zinc-700 text-zinc-500 dark:text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+                className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:text-zinc-300 transition-colors"
               >
                 <Pencil size={11} />
                 Edit
@@ -165,7 +165,7 @@ export default function DiffViewer({
                   <button
                     title="Format JSON"
                     onClick={() => onActualChange(prettyPrint(actualData))}
-                    className="flex items-center justify-center w-6 h-6 rounded-sm border border-zinc-300 dark:border-zinc-700 text-zinc-400 dark:text-zinc-500 hover:border-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+                    className="flex items-center justify-center w-6 h-6 rounded-sm border border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:text-zinc-300 transition-colors"
                   >
                     <Braces size={11} />
                   </button>
@@ -181,7 +181,7 @@ export default function DiffViewer({
                       "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-all",
                       copied
                         ? "border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
-                        : "border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                        : "border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:text-zinc-300"
                     )}
                   >
                     {copied ? <Check size={11} /> : <Copy size={11} />}
@@ -193,7 +193,7 @@ export default function DiffViewer({
                       "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-colors",
                       reorderActive
                         ? "border-sky-500 text-sky-500 dark:text-sky-400 bg-sky-500/10"
-                        : "border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                        : "border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:text-zinc-300"
                     )}
                   >
                     <RotateCcw size={11} />
@@ -211,7 +211,7 @@ export default function DiffViewer({
                 className={classnames(
                   "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
                   !actualData
-                    ? "border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-600 opacity-40 cursor-not-allowed"
+                    ? "border-black/20 dark:border-zinc-800 text-zinc-400 dark:text-zinc-600 opacity-40 cursor-not-allowed"
                     : hasPendingChanges
                     ? "border-sky-400 text-sky-600 dark:text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
                     : "border-sky-500 dark:border-sky-600 text-sky-600 dark:text-sky-400 bg-sky-500/10 hover:bg-sky-500/20"
