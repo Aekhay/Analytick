@@ -71,6 +71,7 @@ export default function GithubSync({ syncStatus, syncError, gistId, githubToken,
                 href={`https://gist.github.com/${gistId}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                title={`Gist ID: ${gistId}`}
                 className="ml-auto flex items-center gap-1 text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
               >
                 View Gist <ExternalLink size={10} />

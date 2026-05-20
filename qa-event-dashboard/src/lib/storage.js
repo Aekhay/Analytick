@@ -42,13 +42,21 @@ export function saveIgnoredKeys(keys) {
 
 export function loadGithubToken() {
   if (typeof window === "undefined") return null;
-  try { return localStorage.getItem(GITHUB_TOKEN_KEY) ?? null; }
+  try {
+    // sessionStorage keeps the token alive only for the current browser session.
+    // Falls back to localStorage to avoid breaking existing connected sessions after upgrade.
+    return sessionStorage.getItem(GITHUB_TOKEN_KEY)
+      ?? localStorage.getItem(GITHUB_TOKEN_KEY)
+      ?? null;
+  }
   catch { return null; }
 }
 
 export function saveGithubToken(token) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(GITHUB_TOKEN_KEY, token);
+  sessionStorage.setItem(GITHUB_TOKEN_KEY, token);
+  // Remove any legacy copy from localStorage so the PAT is no longer persisted long-term.
+  try { localStorage.removeItem(GITHUB_TOKEN_KEY); } catch { /* ignore */ }
 }
 
 export function loadGistId() {
@@ -64,6 +72,7 @@ export function saveGistId(id) {
 
 export function clearGithubSync() {
   if (typeof window === "undefined") return;
+  sessionStorage.removeItem(GITHUB_TOKEN_KEY);
   localStorage.removeItem(GITHUB_TOKEN_KEY);
   localStorage.removeItem(GIST_ID_KEY);
 }

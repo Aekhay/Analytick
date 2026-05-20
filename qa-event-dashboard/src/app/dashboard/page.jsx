@@ -7,6 +7,7 @@ import CompareLive from "@/components/CompareLive";
 import SaveEventModal from "@/components/SaveEventModal";
 import GithubSync from "@/components/GithubSync";
 import TopNav from "@/components/TopNav";
+import AuthGate from "@/components/AuthGate";
 import { useEvents } from "@/hooks/useEvents";
 
 function pageReducer(s, u) {
@@ -38,6 +39,7 @@ export default function DashboardPage() {
   } = useEvents();
 
   return (
+    <AuthGate>
     <div className="flex flex-col h-screen overflow-hidden bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
       <TopNav
         activeTab={activeTab}
@@ -111,5 +113,6 @@ export default function DashboardPage() {
         />
       )}
     </div>
+    </AuthGate>
   );
 }
