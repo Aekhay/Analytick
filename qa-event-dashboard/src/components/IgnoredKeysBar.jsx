@@ -27,7 +27,7 @@ export default function IgnoredKeysBar({ ignoredKeys, onAdd, onRemove }) {
     <div className="flex items-center gap-3 px-4 py-2 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 flex-wrap min-h-[38px]">
       <div className="flex items-center gap-1.5 shrink-0">
         <EyeOff size={11} className="text-zinc-400 dark:text-zinc-600" />
-        <span className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">
+        <span className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">
           Ignore fields
         </span>
       </div>
@@ -81,7 +81,7 @@ export default function IgnoredKeysBar({ ignoredKeys, onAdd, onRemove }) {
       </div>
 
       {ignoredKeys.length > 0 && (
-        <span className="text-[10px] font-mono text-zinc-300 dark:text-zinc-700 shrink-0">
+        <span className="text-[10px] text-zinc-300 dark:text-zinc-700 shrink-0">
           {ignoredKeys.length} ignored
         </span>
       )}

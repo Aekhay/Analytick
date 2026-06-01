@@ -99,7 +99,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
             : "border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-950/60"
         )}
       >
-        <span className="text-[11px] font-mono text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">
+        <span className="text-[11px] text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">
           Quick Compare
         </span>
 
@@ -111,7 +111,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
           }}
           disabled={!leftData || !rightData}
           className={classnames(
-            "flex items-center gap-1.5 text-[11px] font-mono px-3 py-1 rounded-sm border transition-colors",
+            "flex items-center gap-1.5 text-[11px] px-3 py-1 rounded-sm border transition-colors",
             hasPendingChanges
               ? "border-sky-400 text-sky-600 dark:text-sky-300 bg-sky-500/15 hover:bg-sky-500/25 animate-pulse"
               : leftData && rightData
@@ -125,7 +125,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
 
         {/* ── Match badge ── */}
         {keysMatch && (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-emerald-500 text-black text-[11px] font-mono font-bold tracking-wide animate-pulse-once">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-emerald-500 text-black text-[11px] font-semibold tracking-wide animate-pulse-once">
             <ShieldCheck size={12} />
             All keys match · case-sensitive
           </span>
@@ -136,7 +136,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
             <button
               onClick={() => dispatch({ reorderActive: !state.reorderActive })}
               className={classnames(
-                "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-colors",
+                "flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-sm border transition-colors",
                 state.reorderActive
                   ? "border-sky-500 text-sky-500 dark:text-sky-400 bg-sky-500/10"
                   : "border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:border-zinc-500 dark:hover:text-zinc-300"
@@ -150,7 +150,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
           <button
             onClick={swap}
             disabled={!state.leftText && !state.rightText}
-            className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:border-zinc-500 dark:hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-sm border border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:border-zinc-500 dark:hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ArrowLeftRight size={11} />
             Swap
@@ -159,7 +159,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
           {!isEmpty && (
             <button
               onClick={() => dispatch({ leftText: "", rightText: "", reorderActive: false, compareLeft: null, compareRight: null })}
-              className="flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-red-500 hover:text-red-500 dark:hover:border-red-500/50 dark:hover:text-red-400 transition-colors"
+              className="flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-sm border border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-red-500 hover:text-red-500 dark:hover:border-red-500/50 dark:hover:text-red-400 transition-colors"
             >
               <Trash2 size={11} />
               Clear all
@@ -181,7 +181,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
             <div className="flex items-center gap-2">
               {leftData && (
                 <>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-white/30 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-white/30 text-[10px] text-emerald-600 dark:text-emerald-400 tabular-nums">
                     {countKeys(leftData)} keys
                   </span>
                   <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-800 shrink-0" />
@@ -225,7 +225,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
             <div className="flex items-center gap-2">
               {rightData && (
                 <>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-white/30 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-white/30 text-[10px] text-emerald-600 dark:text-emerald-400 tabular-nums">
                     {countKeys(rightData)} keys
                   </span>
                   <div className="w-px h-3 bg-zinc-200 dark:bg-zinc-800 shrink-0" />
@@ -268,7 +268,7 @@ export default function CompareLive({ ignoredKeys, onAddIgnoredKey, onRemoveIgno
 
       {isEmpty && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="text-center space-y-2 text-zinc-300 dark:text-zinc-700 font-mono text-sm">
+          <div className="text-center space-y-2 text-zinc-300 dark:text-zinc-700 text-sm">
             <ArrowLeftRight size={32} className="mx-auto opacity-20" />
             <p>Paste JSON into either pane to begin</p>
           </div>
@@ -292,14 +292,14 @@ function PaneHeader({ label, allMatch, children }) {
     >
       <span
         className={classnames(
-          "text-[11px] font-mono font-bold uppercase tracking-widest transition-colors duration-300",
+          "text-[11px] font-semibold uppercase tracking-widest transition-colors duration-300",
           allMatch ? "text-emerald-600" : "text-zinc-400 dark:text-zinc-500"
         )}
       >
         {label}
       </span>
       {allMatch && (
-        <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-600">
+        <span className="inline-flex items-center gap-1 text-[10px] text-emerald-600">
           <Check size={10} strokeWidth={3} />
           match
         </span>
@@ -314,7 +314,7 @@ function CopyButton({ copied, label = "Copy", onClick }) {
     <button
       onClick={onClick}
       className={classnames(
-        "flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-sm border transition-all",
+        "flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-sm border transition-all",
         copied
           ? "border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
           : "border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:border-zinc-500 dark:hover:text-zinc-300"
@@ -352,7 +352,7 @@ function ClearPaneButton({ onClick }) {
 
 function ParseError({ msg }) {
   return (
-    <div className="px-4 py-2 bg-red-50 dark:bg-red-950/40 border-t border-red-200 dark:border-red-900 text-xs font-mono text-red-600 dark:text-red-400 shrink-0">
+    <div className="px-4 py-2 bg-red-50 dark:bg-red-950/40 border-t border-red-200 dark:border-red-900 text-xs text-red-600 dark:text-red-400 shrink-0">
       JSON parse error: {msg}
     </div>
   );

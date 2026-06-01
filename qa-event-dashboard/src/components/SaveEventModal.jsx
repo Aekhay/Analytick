@@ -54,7 +54,7 @@ export default function SaveEventModal({ onSave, onClose, initialData }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/70 backdrop-blur-sm">
       <div className="w-[560px] max-h-[90vh] flex flex-col bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
         <header className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
-          <h2 className="text-sm font-bold font-mono text-zinc-800 dark:text-zinc-100 tracking-wide uppercase">
+          <h2 className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 tracking-wide">
             {isEdit ? "Edit Baseline Event" : "Save Baseline Event"}
           </h2>
           <button
@@ -83,7 +83,7 @@ export default function SaveEventModal({ onSave, onClose, initialData }) {
                   key={p}
                   onClick={() => dispatch({ platform: p })}
                   className={classnames(
-                    "flex-1 py-1.5 text-xs font-mono rounded-sm border transition-colors capitalize",
+                    "flex-1 py-1.5 text-xs rounded-sm border transition-colors capitalize",
                     form.platform === p
                       ? "border-sky-500 bg-sky-500/15 text-sky-600 dark:text-sky-400"
                       : "border-black dark:border-zinc-700 text-zinc-600 dark:text-zinc-500 hover:border-black hover:text-black dark:hover:text-zinc-300"
@@ -117,7 +117,7 @@ export default function SaveEventModal({ onSave, onClose, initialData }) {
           </Field>
 
           {form.error && (
-            <p className="text-xs font-mono text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-sm px-3 py-2">
+            <p className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-sm px-3 py-2">
               {form.error}
             </p>
           )}
@@ -126,13 +126,13 @@ export default function SaveEventModal({ onSave, onClose, initialData }) {
         <footer className="flex items-center justify-end gap-3 px-5 py-4 border-t border-zinc-200 dark:border-zinc-800">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-zinc-200 border border-black dark:border-zinc-700 hover:border-black rounded-sm transition-colors"
+            className="px-4 py-2 text-xs text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-zinc-200 border border-black dark:border-zinc-700 hover:border-black rounded-sm transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 text-xs font-mono font-bold bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-sm transition-colors"
+            className="px-4 py-2 text-xs font-semibold bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-sm transition-colors"
           >
             {isEdit ? "Save Changes" : "Save Baseline"}
           </button>
@@ -145,7 +145,7 @@ export default function SaveEventModal({ onSave, onClose, initialData }) {
 function Field({ label, children }) {
   return (
     <div className="space-y-1.5">
-      <label className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+      <label className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
         {label}
       </label>
       {children}
