@@ -23,8 +23,8 @@ export default function TopNav({ activeTab, onTabChange, syncStatus = "idle", on
   const { dark, toggle } = useTheme();
 
   return (
-    <header className="flex items-center gap-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shrink-0 px-4">
-      <span className="text-[11px] font-bold text-black dark:text-zinc-600 uppercase tracking-widest pr-5 border-r border-zinc-200 dark:border-zinc-800 mr-4 py-3">
+    <header className="flex items-center gap-0 border-b border-zinc-300 shrink-0 px-4" style={{ backgroundColor: '#bdbdbd' }}>
+      <span className="text-[11px] font-bold text-zinc-700 uppercase tracking-widest pr-5 border-r border-zinc-400/50 mr-4 py-3">
         QA Event Dashboard
       </span>
 
@@ -36,8 +36,8 @@ export default function TopNav({ activeTab, onTabChange, syncStatus = "idle", on
             className={classnames(
               "flex items-center gap-2 px-3 py-2.5 text-[12px] font-medium transition-colors border-b-2 -mb-px",
               activeTab === id
-                ? "border-b-sky-500 text-black dark:text-zinc-100"
-                : "border-b-transparent text-black/50 dark:text-zinc-500 hover:text-black dark:hover:text-zinc-300"
+                ? "border-b-sky-600 text-zinc-900"
+                : "border-b-transparent text-zinc-600 hover:text-zinc-900"
             )}
           >
             <Icon size={13} />

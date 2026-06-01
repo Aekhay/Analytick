@@ -287,13 +287,14 @@ function PaneHeader({ label, allMatch, children }) {
         "flex items-center gap-2 px-4 py-2.5 border-b shrink-0 transition-colors duration-300",
         allMatch
           ? "border-emerald-200/60 dark:border-emerald-800/60 bg-emerald-50/30 dark:bg-emerald-950/20"
-          : "border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950"
+          : "border-zinc-200 dark:border-zinc-800"
       )}
+      style={!allMatch ? { backgroundColor: '#f1f3f5' } : undefined}
     >
       <span
         className={classnames(
           "text-[11px] font-semibold uppercase tracking-widest transition-colors duration-300",
-          allMatch ? "text-emerald-600" : "text-zinc-400 dark:text-zinc-500"
+          allMatch ? "text-emerald-600" : "text-zinc-500"
         )}
       >
         {label}

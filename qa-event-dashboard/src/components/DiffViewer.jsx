@@ -107,8 +107,8 @@ export default function DiffViewer({
       <div className="flex-1 grid grid-cols-2 divide-x divide-zinc-200 dark:divide-zinc-800 overflow-hidden">
         {/* ── Baseline pane ── */}
         <section className="flex flex-col overflow-hidden">
-          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shrink-0">
-            <span className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 shrink-0" style={{ backgroundColor: '#f1f3f5' }}>
+            <span className="text-[11px] font-semibold text-zinc-500 uppercase tracking-widest">
               Baseline
             </span>
             <span className="text-xs text-zinc-700 dark:text-zinc-300 truncate">
@@ -261,8 +261,8 @@ export default function DiffViewer({
 function Pane({ title, label, platform, badge, badgeColor, extra, children }) {
   return (
     <section className="flex flex-col overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shrink-0">
-        <span className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 shrink-0" style={{ backgroundColor: '#f1f3f5' }}>
+        <span className="text-[11px] font-semibold text-zinc-500 uppercase tracking-widest">
           {title}
         </span>
         {label && (
