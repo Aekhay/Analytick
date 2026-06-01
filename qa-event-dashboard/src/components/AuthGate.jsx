@@ -55,18 +55,18 @@ export default function AuthGate({ children }) {
       <div className="w-80 flex flex-col bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
         <header className="flex items-center gap-2 px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
           <Lock size={13} className="text-zinc-500 dark:text-zinc-400" />
-          <h1 className="text-sm font-bold font-mono text-zinc-800 dark:text-zinc-100 tracking-wide uppercase">
+          <h1 className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 tracking-wide">
             QA Event Dashboard
           </h1>
         </header>
 
         <div className="px-5 py-5 space-y-4">
-          <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
             Enter the dashboard password to continue.
           </p>
 
           <div className="space-y-1.5">
-            <label className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+            <label className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
               Password
             </label>
             <input
@@ -88,7 +88,7 @@ export default function AuthGate({ children }) {
           </div>
 
           {error && (
-            <p className="text-xs font-mono text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-sm px-3 py-2">
+            <p className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-sm px-3 py-2">
               {error}
             </p>
           )}
@@ -96,7 +96,7 @@ export default function AuthGate({ children }) {
           <button
             onClick={submit}
             disabled={submitting}
-            className="w-full py-2 text-xs font-mono font-bold bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2 text-xs font-semibold bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200 rounded-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Unlock
           </button>

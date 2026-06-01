@@ -6,7 +6,7 @@ export default function DiffSummary({ diffResult, hasPayload }) {
   if (!hasPayload || !diffResult) {
     return (
       <div className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-6 py-3 flex items-center gap-3">
-        <span className="text-xs font-mono text-zinc-400 dark:text-zinc-600">
+        <span className="text-xs text-zinc-400 dark:text-zinc-600">
           — Paste an actual payload on the right to start comparison
         </span>
       </div>
@@ -19,7 +19,7 @@ export default function DiffSummary({ diffResult, hasPayload }) {
   return (
     <div
       className={classnames(
-        "border-t flex items-center gap-4 px-6 py-3 font-mono text-sm flex-wrap",
+        "border-t flex items-center gap-4 px-6 py-3 text-sm flex-wrap",
         passing
           ? "border-emerald-200 dark:border-emerald-900 bg-emerald-50/40 dark:bg-emerald-950/40"
           : "border-red-200 dark:border-red-900 bg-red-50/30 dark:bg-red-950/20"

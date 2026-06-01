@@ -56,12 +56,12 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
   return (
     <aside className="w-64 min-w-[256px] flex flex-col border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 h-full overflow-hidden">
       <div className="px-4 pt-5 pb-3 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
-        <span className="text-sm font-bold font-mono text-zinc-800 dark:text-zinc-100 tracking-wide uppercase">
+        <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 tracking-wide">
           QA Events
         </span>
         <button
           onClick={onNewEvent}
-          className="flex items-center gap-1 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white px-2 py-1 border border-black dark:border-zinc-700 hover:border-black dark:hover:border-zinc-500 rounded-sm transition-colors"
+          className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white px-2 py-1 border border-black dark:border-zinc-700 hover:border-black dark:hover:border-zinc-500 rounded-sm transition-colors"
         >
           <Plus size={12} />
           New
@@ -76,7 +76,7 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
             placeholder="Search events..."
             value={search}
             onChange={(e) => dispatch({ search: e.target.value })}
-            className="bg-transparent text-xs font-mono text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 outline-none w-full"
+            className="bg-transparent text-xs text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 outline-none w-full"
           />
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
               <button
                 onClick={() => dispatch({ collapsed: { ...collapsed, [platform]: !collapsed[platform] } })}
                 className={classnames(
-                  "w-full flex items-center gap-2 px-4 py-1.5 text-[11px] font-mono font-semibold uppercase tracking-widest transition-colors",
+                  "w-full flex items-center gap-2 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest transition-colors",
                   style.header
                 )}
               >
@@ -129,7 +129,7 @@ export default function Sidebar({ events, selectedEventId, onSelect, onDelete, o
         })}
 
         {filtered.length === 0 && (
-          <p className="px-4 py-6 text-xs font-mono text-zinc-400 dark:text-zinc-600 text-center">
+          <p className="px-4 py-6 text-xs text-zinc-400 dark:text-zinc-600 text-center">
             No events found
           </p>
         )}
@@ -168,7 +168,7 @@ function EventRow({ event, platform, style, isSelected, isDragging, isDragOver, 
       )}
       onClick={() => onSelect(event.id)}
     >
-      <span className="flex-1 truncate text-xs font-mono">{event.name}</span>
+      <span className="flex-1 truncate text-xs font-medium">{event.name}</span>
 
       {hovered && (
         <div className="flex items-center gap-1 shrink-0">
@@ -195,7 +195,7 @@ function EventInfoModal({ event, onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/70 backdrop-blur-sm">
       <div className="w-[380px] flex flex-col bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-sm shadow-2xl overflow-hidden">
         <header className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-zinc-800">
-          <h2 className="text-sm font-bold font-mono text-zinc-800 dark:text-zinc-100 tracking-wide uppercase">
+          <h2 className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 tracking-wide">
             Event Info
           </h2>
           <button
@@ -208,15 +208,15 @@ function EventInfoModal({ event, onClose }) {
 
         <div className="px-5 py-5 space-y-4">
           <InfoRow label="Event Name">
-            <span className="text-sm font-mono text-zinc-800 dark:text-zinc-100">{event.name}</span>
+            <span className="text-sm text-zinc-800 dark:text-zinc-100">{event.name}</span>
           </InfoRow>
           <InfoRow label="Platform">
             <PlatformBadge platform={event.platform} size="md" />
           </InfoRow>
           <InfoRow label="Description">
             {event.description
-              ? <p className="text-xs font-mono text-zinc-600 dark:text-zinc-300 leading-relaxed">{event.description}</p>
-              : <span className="text-xs font-mono text-zinc-400 dark:text-zinc-600">No description provided.</span>
+              ? <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">{event.description}</p>
+              : <span className="text-xs text-zinc-400 dark:text-zinc-600">No description provided.</span>
             }
           </InfoRow>
         </div>
@@ -228,7 +228,7 @@ function EventInfoModal({ event, onClose }) {
 function InfoRow({ label, children }) {
   return (
     <div className="space-y-1.5">
-      <span className="text-[11px] font-mono font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
+      <span className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
         {label}
       </span>
       <div>{children}</div>
